@@ -409,9 +409,9 @@ Breaking changes bump the minor version (`0.2.0`). Additive changes (new declare
 
 ## 12. Reference Implementations
 
-- **`@bmf/sdk`** — TypeScript SDK: `canonicalize`, `sign`, `verify`, `deriveCapabilities`, `loadManifest`.
-- **`@bmf/cli`** — Command-line tool: `verify`, `sign`, `inspect`, `keygen`.
-- **`@bmf/gateway`** — Reference gateway: single file, SQLite-backed, `npx @bmf/gateway`.
+- **`@mcflamingo/bmf-sdk`** — TypeScript SDK: `canonicalize`, `sign`, `verify`, `deriveCapabilities`, `loadManifest`.
+- **`@mcflamingo/bmf-cli`** — Command-line tool: `verify`, `sign`, `inspect`, `keygen`.
+- **`@mcflamingo/bmf-gateway`** — Reference gateway: single file, SQLite-backed, `npx @mcflamingo/bmf-gateway`.
 
 All three are in this repo under `sdk/`, `cli/`, and `gateway/`.
 

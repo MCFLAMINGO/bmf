@@ -21,17 +21,17 @@ Initial public release.
 
 ### SDK
 
-- `@bmf/sdk` (TypeScript): `canonicalize`, `assetHash`, `sha256Hex`, `keygen`, `publicKeyFromPrivate`, `signManifest`, `verifyManifest`, `deriveCapabilities`, `hasCapability`, `assertValidRoyaltyChain`, `mintBmfUri`, `parseBmfUri`, `loadManifest`.
+- `@mcflamingo/bmf-sdk` (TypeScript): `canonicalize`, `assetHash`, `sha256Hex`, `keygen`, `publicKeyFromPrivate`, `signManifest`, `verifyManifest`, `deriveCapabilities`, `hasCapability`, `assertValidRoyaltyChain`, `mintBmfUri`, `parseBmfUri`, `loadManifest`.
 - Zero runtime dependencies besides `@noble/ed25519`.
 
 ### CLI
 
-- `@bmf/cli`: `verify`, `sign`, `inspect`, `keygen`.
+- `@mcflamingo/bmf-cli`: `verify`, `sign`, `inspect`, `keygen`.
 
 ### Reference gateway
 
 - Single-file Express server, SQLite-backed, no external services.
-- Runs with `npx @bmf/gateway`.
+- Runs with `npx @mcflamingo/bmf-gateway`.
 
 ### Verified capabilities
 

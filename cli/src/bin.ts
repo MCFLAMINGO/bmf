@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: Apache-2.0
-// @bmf/cli — command-line tool.
+// @mcflamingo/bmf-cli — command-line tool.
 //
 // Commands:
 //   bmf verify <asset> <manifest>       Verify signature + asset_hash.
@@ -25,7 +25,7 @@ import {
   type Kind,
   type Manifest,
   type UnsignedManifest,
-} from "@bmf/sdk";
+} from "@mcflamingo/bmf-sdk";
 
 const USAGE = `bmf ${BMF_VERSION}
 

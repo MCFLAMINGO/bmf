@@ -1,5 +1,12 @@
 {
-  "name": "@bmf/gateway",
+  "name": "@mcflamingo/bmf-gateway",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "homepage": "https://github.com/MCFLAMINGO/bmf/tree/main/gateway#readme",
+  "bugs": "https://github.com/MCFLAMINGO/bmf/issues",
+  "keywords": ["bmf", "gateway", "manifest", "content-addressed", "ed25519"],
   "version": "0.1.0",
   "description": "BMF reference gateway. Single-file Express server, SQLite-backed, npx-runnable.",
   "license": "Apache-2.0",
@@ -25,7 +32,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@bmf/sdk": "^0.1.0",
+    "@mcflamingo/bmf-sdk": "^0.1.0",
     "better-sqlite3": "^11.3.0",
     "express": "^4.21.0"
   },

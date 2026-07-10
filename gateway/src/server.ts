@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: Apache-2.0
-// @bmf/gateway — reference implementation.
+// @mcflamingo/bmf-gateway — reference implementation.
 //
 // A single-file Express server that:
 //   - accepts uploads via prepare/chunk/finalize,
@@ -11,7 +11,7 @@
 //
 // No Postgres, no external services, no shared state. Run:
 //
-//   npx @bmf/gateway
+//   npx @mcflamingo/bmf-gateway
 //
 // Optional env:
 //   PORT=8787              listen port
@@ -37,7 +37,7 @@ import {
   KINDS,
   type Kind,
   type UnsignedManifest,
-} from "@bmf/sdk";
+} from "@mcflamingo/bmf-sdk";
 
 // ── config ──────────────────────────────────────────────────────────────────
 
@@ -50,7 +50,7 @@ const PUBLIC_HOST = process.env.BMF_PUBLIC_HOST ?? `localhost:${PORT}`;
 
 async function loadOrCreateKey(): Promise<{ privateKey: Uint8Array; publicKey: string }> {
   if (existsSync(KEY_PATH)) {
-    const { publicKeyFromPrivate } = await import("@bmf/sdk");
+    const { publicKeyFromPrivate } = await import("@mcflamingo/bmf-sdk");
     const privateKey = new Uint8Array(await readFile(KEY_PATH));
     const publicKey = await publicKeyFromPrivate(privateKey);
     return { privateKey, publicKey };

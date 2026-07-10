@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// End-to-end smoke test for @bmf/gateway.
+// End-to-end smoke test for @mcflamingo/bmf-gateway.
 // Starts the server on a random port, uploads a synthetic humanoid GLB via
 // prepare/chunk/finalize, resolves the manifest, fetches the asset, verifies
 // signature + asset_hash. Then tears down.
@@ -9,7 +9,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync, unlinkSync } from "node:fs";
-import { verifyManifest, assetHash } from "@bmf/sdk";
+import { verifyManifest, assetHash } from "@mcflamingo/bmf-sdk";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const bin = join(here, "..", "dist", "server.js");

@@ -64,22 +64,22 @@ Every kind is signed with the same primitives. Adding a new kind is one file: `s
 
 ```bash
 # Verify a signed manifest against its asset bytes
-npx @bmf/cli verify ./arthur.glb ./arthur.bmf.json
+npx @mcflamingo/bmf-cli verify ./arthur.glb ./arthur.bmf.json
 
 # Sign a new manifest
-npx @bmf/cli sign ./arthur.glb --producer did:example:me --out arthur.bmf.json
+npx @mcflamingo/bmf-cli sign ./arthur.glb --producer did:example:me --out arthur.bmf.json
 
 # Inspect a manifest served by any BMF gateway
-npx @bmf/cli inspect bmf://wildwallet.ai/asset/arthur-6b4836d2
+npx @mcflamingo/bmf-cli inspect bmf://wildwallet.ai/asset/arthur-6b4836d2
 
 # Run your own reference gateway locally
-npx @bmf/gateway
+npx @mcflamingo/bmf-gateway
 ```
 
 Or in code:
 
 ```ts
-import { loadManifest, hasCapability } from "@bmf/sdk";
+import { loadManifest, hasCapability } from "@mcflamingo/bmf-sdk";
 
 // loadManifest fetches, checks the signature, and verifies asset_hash matches the bytes.
 const { manifest, bytes, verified } = await loadManifest("bmf://wildwallet.ai/asset/arthur-6b4836d2");
@@ -103,8 +103,8 @@ if (hasCapability(manifest, "safety.simonly")) refuseToRunOnHardware();
 | Path | Purpose |
 |---|---|
 | [`spec/`](./spec) | Human-readable specification, JSON Schemas, canonical examples |
-| [`sdk/typescript/`](./sdk/typescript) | `@bmf/sdk` — verify, sign, hash, canonicalize, deriveCapabilities |
-| [`cli/`](./cli) | `@bmf/cli` — `bmf verify`, `bmf sign`, `bmf inspect`, `bmf keygen` |
+| [`sdk/typescript/`](./sdk/typescript) | `@mcflamingo/bmf-sdk` — verify, sign, hash, canonicalize, deriveCapabilities |
+| [`cli/`](./cli) | `@mcflamingo/bmf-cli` — `bmf verify`, `bmf sign`, `bmf inspect`, `bmf keygen` |
 | [`gateway/`](./gateway) | Reference gateway (SQLite, single-file, no external deps) |
 | [`examples/three-js-loader/`](./examples/three-js-loader) | Load a signed BMF character in three.js with capability-aware behaviors |
 | [`examples/node-verify/`](./examples/node-verify) | Verify a manifest end-to-end in ~40 lines |

@@ -1,5 +1,11 @@
 {
-  "name": "@bmf/sdk",
+  "name": "@mcflamingo/bmf-sdk",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "homepage": "https://github.com/MCFLAMINGO/bmf/tree/main/sdk/typescript#readme",
+  "bugs": "https://github.com/MCFLAMINGO/bmf/issues",
   "version": "0.1.0",
   "description": "BMF SDK: verify, sign, canonicalize, and hash signed manifests for embodied assets (3D characters, robot policies, URDFs, teleop datasets).",
   "license": "Apache-2.0",

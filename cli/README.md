@@ -1,13 +1,13 @@
-# @bmf/cli
+# @mcflamingo/bmf-cli
 
 Command-line tool for BMF manifests.
 
 ## Install
 
 ```bash
-npm install -g @bmf/cli
+npm install -g @mcflamingo/bmf-cli
 # or run without installing:
-npx @bmf/cli --help
+npx @mcflamingo/bmf-cli --help
 ```
 
 ## Commands

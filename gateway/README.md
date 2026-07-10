@@ -1,11 +1,11 @@
-# @bmf/gateway
+# @mcflamingo/bmf-gateway
 
 Reference BMF gateway. Single-file Express server, SQLite-backed, npx-runnable.
 
 ## Run
 
 ```bash
-npx @bmf/gateway
+npx @mcflamingo/bmf-gateway
 # bmf gateway 0.1.0 on http://localhost:8787
 ```
 

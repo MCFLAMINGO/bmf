@@ -1,5 +1,12 @@
 {
-  "name": "@bmf/cli",
+  "name": "@mcflamingo/bmf-cli",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "homepage": "https://github.com/MCFLAMINGO/bmf/tree/main/cli#readme",
+  "bugs": "https://github.com/MCFLAMINGO/bmf/issues",
+  "keywords": ["bmf", "cli", "manifest", "ed25519", "signing", "3d", "glb", "robotics"],
   "version": "0.1.0",
   "description": "BMF command-line tool: verify, sign, inspect, keygen.",
   "license": "Apache-2.0",
@@ -24,7 +31,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@bmf/sdk": "^0.1.0"
+    "@mcflamingo/bmf-sdk": "^0.1.0"
   },
   "devDependencies": {
     "typescript": "^5.5.0",

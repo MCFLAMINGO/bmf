@@ -1,11 +1,11 @@
-# @bmf/sdk
+# @mcflamingo/bmf-sdk
 
 TypeScript SDK for the [BMF](https://github.com/MCFLAMINGO/bmf) manifest format. Sign, verify, canonicalize, and derive capabilities for embodied assets.
 
 ## Install
 
 ```bash
-npm install @bmf/sdk
+npm install @mcflamingo/bmf-sdk
 ```
 
 Runs on Node 20+, Deno, Bun, Cloudflare Workers, and modern browsers. One runtime dep: [`@noble/ed25519`](https://www.npmjs.com/package/@noble/ed25519).
@@ -13,7 +13,7 @@ Runs on Node 20+, Deno, Bun, Cloudflare Workers, and modern browsers. One runtim
 ## Verify a signed manifest
 
 ```ts
-import { loadManifest, hasCapability } from "@bmf/sdk";
+import { loadManifest, hasCapability } from "@mcflamingo/bmf-sdk";
 
 const { manifest, verified } = await loadManifest("bmf://wildwallet.ai/asset/arthur-6b4836d2");
 if (!verified) throw new Error("BMF verification failed");
@@ -27,7 +27,7 @@ if (hasCapability(manifest, "safety.simonly")) refuseToRunOnHardware();
 ## Sign your own manifest
 
 ```ts
-import { assetHash, deriveCapabilities, keygen, mintBmfUri, signManifest } from "@bmf/sdk";
+import { assetHash, deriveCapabilities, keygen, mintBmfUri, signManifest } from "@mcflamingo/bmf-sdk";
 import { readFile } from "node:fs/promises";
 
 const bytes = new Uint8Array(await readFile("./arthur.glb"));

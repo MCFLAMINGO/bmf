@@ -1,0 +1,56 @@
+name: Publish to npm
+
+# Publishes @mcflamingo/bmf-sdk, @mcflamingo/bmf-cli, and @mcflamingo/bmf-gateway
+# to npm using npm's Trusted Publishing (OIDC). No long-lived NPM_TOKEN.
+#
+# Trigger: pushing a version tag like v0.1.0 or v1.2.3.
+#
+# Prerequisites (one-time, on npmjs.com):
+#   For each of the three packages, on the package page:
+#     Settings → Publishing access → Add trusted publisher
+#       Publisher:       GitHub Actions
+#       Organization:    MCFLAMINGO
+#       Repository:      bmf
+#       Workflow name:   publish.yml
+#       Environment:     npm-publish
+#   You will need to publish v0.1.0 once manually (npm publish --otp=...) so the
+#   package exists on npm before its trusted-publisher entry can be created.
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+# Trusted publishing requires id-token: write on the job.
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install
+        run: npm ci
+
+      - name: Build all workspaces
+        run: npm run build
+
+      - name: Test all workspaces
+        run: npm test
+
+      # Order matters: cli and gateway depend on the sdk.
+      - name: Publish sdk
+        run: npm publish --workspace sdk/typescript
+      - name: Publish cli
+        run: npm publish --workspace cli
+      - name: Publish gateway
+        run: npm publish --workspace gateway

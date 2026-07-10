@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// @bmf/sdk — integration tests for the public API.
+// @mcflamingo/bmf-sdk — integration tests for the public API.
 
 import { deepStrictEqual, ok, strictEqual } from "node:assert/strict";
 import { test } from "node:test";

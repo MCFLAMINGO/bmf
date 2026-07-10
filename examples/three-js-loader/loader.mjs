@@ -7,7 +7,7 @@
 //   if (char.can("anim.wave")) char.playWave();
 //   scene.add(char.root);
 
-import { loadManifest, hasCapability } from "@bmf/sdk";
+import { loadManifest, hasCapability } from "@mcflamingo/bmf-sdk";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export async function loadBmfCharacter(uri) {

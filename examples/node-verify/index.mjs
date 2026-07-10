@@ -2,7 +2,7 @@
 // Minimal BMF verifier: given a bmf:// URI (or http(s) manifest URL),
 // fetch, verify signature, verify asset_hash, print capabilities.
 
-import { loadManifest, hasCapability } from "@bmf/sdk";
+import { loadManifest, hasCapability } from "@mcflamingo/bmf-sdk";
 
 const uri = process.argv[2];
 if (!uri) {
