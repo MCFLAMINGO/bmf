@@ -1,0 +1,12 @@
+{
+  "name": "@bmf-examples/three-js-loader",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Three.js loader that verifies a BMF manifest before instantiating the GLB and gates behaviors on capabilities.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "@bmf/sdk": "^0.1.0",
+    "three": "^0.170.0"
+  }
+}

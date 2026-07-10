@@ -1,0 +1,39 @@
+{
+  "name": "@bmf/gateway",
+  "version": "0.1.0",
+  "description": "BMF reference gateway. Single-file Express server, SQLite-backed, npx-runnable.",
+  "license": "Apache-2.0",
+  "author": "Erik Osol <erik@mcflamingo.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MCFLAMINGO/bmf.git",
+    "directory": "gateway"
+  },
+  "type": "module",
+  "bin": {
+    "bmf-gateway": "./dist/server.js"
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc && chmod +x dist/server.js",
+    "dev": "tsx src/server.ts",
+    "start": "node dist/server.js",
+    "test": "npm run build && node test/gateway.smoke.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@bmf/sdk": "^0.1.0",
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.14.0",
+    "@types/express": "^4.17.21",
+    "@types/better-sqlite3": "^7.6.11",
+    "tsx": "^4.19.0"
+  }
+}

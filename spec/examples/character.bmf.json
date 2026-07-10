@@ -1,0 +1,33 @@
+{
+  "bmf": "0.1.0",
+  "id": "bmf://gateway.example/asset/arthur-6b4836d2",
+  "kind": "glb",
+  "mime": "model/gltf-binary",
+  "bytes": 7693848,
+  "asset_hash": "sha256:6b4836d2e7097420cd116fe15372695f583327ba82538be096b23fb9bb6f9f72",
+  "capabilities": [
+    "anim.breathe",
+    "anim.crouch",
+    "anim.gaze",
+    "anim.locomotion",
+    "anim.wave",
+    "face.arkit52!",
+    "humanoid.mixamo24",
+    "mesh.singleroot"
+  ],
+  "provenance": [
+    { "step": "source", "source": "meshy://model/abc123", "notes": "generated from prompt" },
+    { "step": "rig",    "source": "mixamo://autorig",     "notes": "24-joint auto-rig" }
+  ],
+  "royalty_chain": [
+    { "recipient": "did:example:creator", "share_bps": 9000 },
+    { "recipient": "did:bmf:platform",    "share_bps": 1000 }
+  ],
+  "issued_at": "2026-07-10T18:44:00.000Z",
+  "expires_at": null,
+  "signature": {
+    "alg": "ed25519",
+    "public_key": "base64url:pMd2WfkY9xC8LOxAnbnyuWXr_ctu0LRCZV0CcnUmdBU",
+    "value": "base64url:EXAMPLE_ONLY_replace_this_with_a_real_signature_produced_by_signManifest_over_the_canonical_bytes"
+  }
+}

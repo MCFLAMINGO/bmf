@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bmf.dev/schema/0.1.0/capabilities.registry.json",
+  "title": "BMF Capabilities Registry",
+  "description": "The set of capabilities recognized at spec version 0.1.0. Each capability is either verified by a reference gateway or declared-only.",
+  "version": "0.1.0",
+  "namespaces": ["humanoid", "mesh", "anim", "face", "kin", "policy", "skill", "data", "safety"],
+  "capabilities": {
+    "humanoid.mixamo24": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Rig has \u226524 joints and humanoid-landmark score \u2265 90/110.",
+      "requires_landmarks": ["hips", "spine", "neck", "head", "l_up_arm", "r_up_arm", "l_forearm", "r_forearm", "l_hand", "r_hand", "l_up_leg", "r_up_leg", "l_leg", "r_leg", "l_foot", "r_foot"]
+    },
+    "humanoid.vrm": {
+      "verifiable": false,
+      "kinds": ["glb"],
+      "status": "declared-only-at-0.1.0"
+    },
+    "mesh.singleroot": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "GLB contains \u22651 skinned mesh with a single skeleton root."
+    },
+    "anim.gaze": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Head bone present.",
+      "requires_landmarks": ["head"]
+    },
+    "anim.breathe": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Spine (or pelvis) + at least one shoulder chain.",
+      "requires_landmarks_any_of_groups": [["spine", "hips"], ["l_up_arm", "r_up_arm"]]
+    },
+    "anim.wave": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Full arm chain on at least one side.",
+      "requires_landmarks_any_of_groups": [["l_up_arm", "l_forearm"], ["r_up_arm", "r_forearm"]]
+    },
+    "anim.crouch": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Hips + at least one leg chain.",
+      "requires_landmarks_any_of_groups": [["hips"], ["l_up_leg", "r_up_leg"]]
+    },
+    "anim.locomotion": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Hips + BOTH legs (needed to alternate stride).",
+      "requires_landmarks": ["hips", "l_up_leg", "r_up_leg"]
+    },
+    "face.arkit52": {
+      "verifiable": false,
+      "kinds": ["glb"],
+      "status": "declared-only-at-0.1.0",
+      "planned": "0.2.0"
+    },
+    "face.perfectsync": {
+      "verifiable": false,
+      "kinds": ["glb"],
+      "status": "declared-only-at-0.1.0"
+    },
+    "kin.urdf":            { "verifiable": false, "kinds": ["urdf"],  "planned": "0.2.0" },
+    "kin.mjcf":            { "verifiable": false, "kinds": ["mjcf"],  "planned": "0.2.0" },
+    "kin.arm":             { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
+    "kin.bimanual":        { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
+    "kin.mobile":          { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
+    "kin.gripper.parallel":{ "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
+    "kin.gripper.suction": { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
+    "kin.gripper.dex":     { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
+    "policy.framework.lerobot": { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.framework.openvla": { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.framework.rt2":     { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.obs.rgb":           { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.obs.rgbd":          { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.obs.proprio":       { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.act.joint":         { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.act.ee_pose":       { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.act.gripper":       { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "skill.pick_place":         { "verifiable": false, "kinds": ["policy", "trajectory-bundle"], "planned": "0.2.0" },
+    "skill.teleop_replay":      { "verifiable": false, "kinds": ["trajectory-bundle"], "planned": "0.2.0" },
+    "safety.workspace.limits":  { "verifiable": false, "kinds": ["urdf", "mjcf", "policy"], "planned": "0.2.0" },
+    "safety.dead_man":          { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "safety.simonly":           { "verifiable": false, "kinds": ["policy", "urdf", "mjcf"], "planned": "0.2.0", "enforcement": "runtime-must-refuse-on-hardware" }
+  }
+}
