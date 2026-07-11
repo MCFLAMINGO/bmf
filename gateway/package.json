@@ -2,7 +2,7 @@
   "name": "@mcflamingo/bmf-gateway",
   "publishConfig": {
     "access": "public",
-    "provenance": true
+    "provenance": false
   },
   "homepage": "https://github.com/MCFLAMINGO/bmf/tree/main/gateway#readme",
   "bugs": "https://github.com/MCFLAMINGO/bmf/issues",

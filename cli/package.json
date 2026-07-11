@@ -2,7 +2,7 @@
   "name": "@mcflamingo/bmf-cli",
   "publishConfig": {
     "access": "public",
-    "provenance": true
+    "provenance": false
   },
   "homepage": "https://github.com/MCFLAMINGO/bmf/tree/main/cli#readme",
   "bugs": "https://github.com/MCFLAMINGO/bmf/issues",
