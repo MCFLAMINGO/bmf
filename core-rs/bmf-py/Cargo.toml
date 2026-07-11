@@ -1,0 +1,16 @@
+[package]
+name = "bmf-py"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Python bindings for bmf-core (PyO3)"
+
+[lib]
+name = "bmf_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+bmf-core = { path = "../bmf-core" }
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py39"] }
+serde_json = { workspace = true }

@@ -1,0 +1,17 @@
+[package]
+name = "bmf-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "BMF core: parsers + capability derivations for kinematics, policy, trajectory, choreography"
+
+[lib]
+name = "bmf_core"
+path = "src/lib.rs"
+
+[dependencies]
+roxmltree = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
