@@ -1,41 +1,31 @@
 name: Publish to npm
 
 # Publishes @mcflamingo/bmf-sdk, @mcflamingo/bmf-cli, and @mcflamingo/bmf-gateway
-# to npm using npm's Trusted Publishing (OIDC). No long-lived NPM_TOKEN.
+# to npm using an NPM_TOKEN with Bypass-2FA enabled (bootstrap path — the packages
+# don't exist yet, so trusted publishing can't be configured until after v0.1.0
+# lands). Once all three are on npm, configure trusted publishing per package,
+# revoke NPM_TOKEN, and switch this workflow back to OIDC (see the trusted-
+# publishing block commented at the bottom of this file).
 #
 # Trigger: pushing a version tag like v0.1.0 or v1.2.3.
-#
-# Prerequisites (one-time, on npmjs.com):
-#   For each of the three packages, on the package page:
-#     Settings → Publishing access → Add trusted publisher
-#       Publisher:       GitHub Actions
-#       Organization:    MCFLAMINGO
-#       Repository:      bmf
-#       Workflow name:   publish.yml
-#       Environment:     npm-publish
-#   You will need to publish v0.1.0 once manually (npm publish --otp=...) so the
-#   package exists on npm before its trusted-publisher entry can be created.
 
 on:
   push:
     tags:
       - "v*.*.*"
 
-# Trusted publishing requires id-token: write on the job.
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    environment: npm-publish
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
       - name: Install
@@ -48,9 +38,34 @@ jobs:
         run: npm test
 
       # Order matters: cli and gateway depend on the sdk.
+      # --no-provenance because provenance requires OIDC trusted publishing,
+      # which requires the package to already exist on npm. Chicken-and-egg.
       - name: Publish sdk
-        run: npm publish --workspace sdk/typescript
+        run: npm publish --workspace sdk/typescript --no-provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish cli
-        run: npm publish --workspace cli
+        run: npm publish --workspace cli --no-provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish gateway
-        run: npm publish --workspace gateway
+        run: npm publish --workspace gateway --no-provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+# --- Trusted publishing block (uncomment after first successful publish) ---
+#
+# permissions:
+#   contents: read
+#   id-token: write
+#
+# jobs:
+#   publish:
+#     runs-on: ubuntu-latest
+#     environment: npm-publish
+#     ...
+#     - name: Publish sdk
+#       run: npm publish --workspace sdk/typescript
+#     ...
