@@ -69,8 +69,23 @@
     "phys.stance": {
       "verifiable": true,
       "kinds": ["glb"],
-      "description": "Quiet-stance solver: the joints a rig rests at when the only loads are body weight + tonic muscle stiffness (muscleModel.standingPose()). Corrects an arbitrary bind-pose crouch to a believable near-straight stand (hip ~0, knee soft-lock ~0.05 rad, ankle flat) instead of leaving the character hunched. Requires hips + both leg chains.",
-      "requires_landmarks": ["hips", "l_up_leg", "r_up_leg", "l_leg", "r_leg"]
+      "description": "Quiet-stance solver: the joints a rig rests at when the only loads are body weight + tonic muscle stiffness (muscleModel.standingPose()). Sagittal plane corrects an arbitrary bind-pose crouch to a believable near-straight stand (hip ~0, knee soft-lock ~0.05 rad, ankle flat) instead of leaving the character hunched. Frontal plane adds a stance-width term: the hip abductors (gluteus medius/minimus) hold each thigh in ~9 deg of abduction so the feet plant about shoulder-width apart instead of converging under the pelvis. Runtime contract: client/src/lib/muscleModel.ts (standingPose() + JOINTS.hipAbduction). Requires hips + both leg chains.",
+      "requires_landmarks": ["hips", "l_up_leg", "r_up_leg", "l_leg", "r_leg"],
+      "params": {
+        "hip_rad": 0.0,
+        "knee_rad": 0.05,
+        "ankle_rad": 0.0,
+        "spine_rad": 0.0,
+        "hip_abduction_rad": 0.157,
+        "hip_abduction_deg": 9,
+        "hip_abductor_muscles": "gluteus medius + minimus",
+        "hip_abductor_peak_torque_nm": 120,
+        "hip_abductor_peak_torque_source": "hip-abductor peak isometric ~1.6 Nm/kg at 75 kg",
+        "hip_abductor_pcsa_cm2": 86,
+        "hip_abductor_moment_arm_m": 0.052,
+        "self_consistency": "pcsaTorque(hipAbduction) = 86 * 26.8 * 0.052 approx 120 Nm (matches hip_abductor_peak_torque_nm)",
+        "convention": "sagittal joints are flexion+ ; hip_abduction_rad is per-leg lateral abduction, mirrored L/R about the frontal axis"
+      }
     },
     "phys.jump": {
       "verifiable": true,

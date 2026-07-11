@@ -9,7 +9,7 @@ This project follows [Semantic Versioning](https://semver.org/) at the spec leve
 
 - New `phys.*` capability namespace (GLB kind): assets driven by BMF's anatomically grounded muscle model rather than baked clips. Bone positions are the OUTPUT of a per-joint Hill-type muscle-torque vs gravity-torque balance.
   - `phys.muscle` — whole-skeleton Hill-type joint-actuator model. Peak torque per joint derived from PCSA times specific tension 26.8 N/cm^2, modulated by force-length and force-velocity factors (Anderson & Pandy 2007). Seven modeled joints; self-consistent with published peak torques within 1%.
-  - `phys.stance` — quiet-stance solver (`standingPose()`) that resolves an arbitrary bind-pose crouch to a believable near-straight stand under body weight plus tonic muscle stiffness.
+  - `phys.stance` — quiet-stance solver (`standingPose()`) that resolves an arbitrary bind-pose crouch to a believable near-straight stand under body weight plus tonic muscle stiffness. Adds a frontal-plane stance-width term: hip abductors (gluteus medius/minimus) hold each thigh in ~9 deg of abduction (`JOINTS.hipAbduction`) so the feet plant shoulder-width apart instead of converging.
   - `phys.jump` — muscle-driven vertical jump (crouch/launch/air/land) produced by real leg compression/extension through the `phys.muscle` actuators, not a clip.
   - Registry `params` declare specific tension (26.8 N/cm^2), gravity (9.81 m/s^2), and a 75 kg reference body mass so runtimes can rescale.
   - Reference runtime contract: Wild Wallet `client/src/lib/muscleModel.ts`.
