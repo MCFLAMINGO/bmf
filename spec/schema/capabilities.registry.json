@@ -4,7 +4,7 @@
   "title": "BMF Capabilities Registry",
   "description": "The set of capabilities recognized at spec version 0.1.0. Each capability is either verified by a reference gateway or declared-only.",
   "version": "0.1.0",
-  "namespaces": ["humanoid", "mesh", "anim", "face", "kin", "policy", "skill", "data", "safety"],
+  "namespaces": ["humanoid", "mesh", "anim", "phys", "face", "kin", "policy", "skill", "data", "safety"],
   "capabilities": {
     "humanoid.mixamo24": {
       "verifiable": true,
@@ -51,6 +51,32 @@
       "kinds": ["glb"],
       "description": "Hips + BOTH legs (needed to alternate stride).",
       "requires_landmarks": ["hips", "l_up_leg", "r_up_leg"]
+    },
+    "phys.muscle": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Whole-skeleton Hill-type muscle actuator model: each joint is a torque-limited PD actuator whose ceiling is anatomically grounded (specific tension 26.8 N/cm^2, PCSA-derived F_max, force-length + force-velocity per Anderson & Pandy 2007) and whose net motion is muscle torque MINUS gravity torque. Bone positions are the OUTPUT of that force balance, not hand-authored. Runtime contract: client/src/lib/muscleModel.ts. Requires both leg chains so the sim has the load-bearing joints.",
+      "requires_landmarks": ["hips", "l_up_leg", "r_up_leg", "l_leg", "r_leg"],
+      "params": {
+        "specific_tension_n_per_cm2": 26.8,
+        "specific_tension_source": "J Appl Physiol systematic review 2024 (range 20-40)",
+        "gravity_m_per_s2": 9.81,
+        "reference_body_mass_kg": 75,
+        "model": "hill-type: F = PCSA * specific_tension; tau = F * moment_arm; live ceiling = peak * forceLength(angle) * forceVelocity(vel)",
+        "self_consistency": "pcsaTorque(joint) approx joint.peakTorqueNm within 1% for all 7 joints (hip/knee/ankle/spine/shoulder/elbow/neck)"
+      }
+    },
+    "phys.stance": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Quiet-stance solver: the joints a rig rests at when the only loads are body weight + tonic muscle stiffness (muscleModel.standingPose()). Corrects an arbitrary bind-pose crouch to a believable near-straight stand (hip ~0, knee soft-lock ~0.05 rad, ankle flat) instead of leaving the character hunched. Requires hips + both leg chains.",
+      "requires_landmarks": ["hips", "l_up_leg", "r_up_leg", "l_leg", "r_leg"]
+    },
+    "phys.jump": {
+      "verifiable": true,
+      "kinds": ["glb"],
+      "description": "Muscle-driven vertical jump: crouch-anticipation, push-off extension, air, and land-absorb are produced by real leg compression/extension through the phys.muscle actuators (grounded|crouch|launch|air|land state machine), not a baked clip. Extensors saturate on launch. Requires hips + both full leg chains including feet.",
+      "requires_landmarks": ["hips", "l_up_leg", "r_up_leg", "l_leg", "r_leg", "l_foot", "r_foot"]
     },
     "face.arkit52": {
       "verifiable": false,

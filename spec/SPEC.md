@@ -164,7 +164,7 @@ A kind identifies the asset type. Each kind has:
 
 | Kind | MIME | Bytes | Namespaces derived |
 |---|---|---|---|
-| `glb` | `model/gltf-binary` | glTF 2.0 binary | `humanoid.*`, `mesh.*`, `anim.*`, `face.*` |
+| `glb` | `model/gltf-binary` | glTF 2.0 binary | `humanoid.*`, `mesh.*`, `anim.*`, `phys.*`, `face.*` |
 | `urdf` | `application/xml` | URDF XML | `kin.*` (0.2.0) |
 | `mjcf` | `application/xml` | MuJoCo XML | `kin.*` (0.2.0) |
 | `policy` | `application/octet-stream` | Framework-specific checkpoint | `policy.*`, `skill.*` (0.2.0) |
@@ -211,7 +211,17 @@ Derived from landmark presence:
 
 Any other `anim.*` value MAY be declared but MUST be suffixed with `!`.
 
-#### 5.1.4 `face.*` (GLB kind)
+#### 5.1.4 `phys.*` (GLB kind)
+
+The `phys.*` namespace declares that an asset is driven by BMF's anatomically grounded muscle model rather than baked clips. Bone positions are the OUTPUT of a per-joint force balance (Hill-type muscle torque vs gravity torque), not hand-authored keyframes. The reference runtime contract is `client/src/lib/muscleModel.ts`.
+
+- `phys.muscle` — whole-skeleton Hill-type actuator model. Each of the 7 modeled joints (hip, knee, ankle, spine, shoulder, elbow, neck) is a torque-limited PD actuator whose peak torque is derived from physiological cross-sectional area times a specific tension of 26.8 N/cm^2, modulated live by force-length and force-velocity factors (Anderson & Pandy 2007). Verified when both leg chains are present. Self-consistency check: `pcsaTorque(joint)` reproduces each joint's published peak torque within 1%.
+- `phys.stance` — quiet-stance solver (`standingPose()`): the joint angles a rig settles at under body weight plus tonic muscle stiffness. Corrects an arbitrary bind-pose crouch to a believable near-straight stand (hip ~0 rad, knee soft-lock ~0.05 rad, ankle flat). Verified when hips + both leg chains are present.
+- `phys.jump` — muscle-driven vertical jump. Crouch-anticipation, push-off extension, airborne, and land-absorb phases are produced by real leg compression/extension through the `phys.muscle` actuators (`grounded|crouch|launch|air|land` state machine), not a baked clip. Verified when hips + both full leg chains (including feet) are present.
+
+Gravity is 9.81 m/s^2 against a 75 kg reference body mass; both are declared in the registry `params` so a runtime can rescale to a specific character. Any other `phys.*` value MAY be declared but MUST be suffixed with `!`.
+
+#### 5.1.5 `face.*` (GLB kind)
 
 Declared-only at 0.1.0:
 
@@ -220,7 +230,7 @@ Declared-only at 0.1.0:
 
 Verification (blendshape name matching) lands in 0.2.0.
 
-#### 5.1.5 `kin.*` (URDF / MJCF kinds — 0.2.0)
+#### 5.1.6 `kin.*` (URDF / MJCF kinds — 0.2.0)
 
 - `kin.urdf` — parseable URDF.
 - `kin.mjcf` — parseable MuJoCo scene.
@@ -230,7 +240,7 @@ Verification (blendshape name matching) lands in 0.2.0.
 - `kin.mobile` — has a mobile base (wheeled / legged / tracked).
 - `kin.gripper.parallel` / `kin.gripper.suction` / `kin.gripper.dex` — end-effector class.
 
-#### 5.1.6 `policy.*` (policy kind — 0.2.0)
+#### 5.1.7 `policy.*` (policy kind — 0.2.0)
 
 - `policy.framework.lerobot` / `policy.framework.openvla` / `policy.framework.rt2` / `policy.framework.custom`.
 - `policy.obs.rgb` / `policy.obs.rgbd` / `policy.obs.proprio` / `policy.obs.tactile`.
@@ -238,20 +248,20 @@ Verification (blendshape name matching) lands in 0.2.0.
 
 Derived by inspecting the checkpoint's observation and action space.
 
-#### 5.1.7 `skill.*` (policy or trajectory-bundle kinds — 0.2.0)
+#### 5.1.8 `skill.*` (policy or trajectory-bundle kinds — 0.2.0)
 
 - `skill.pick_place` — validated against a standard eval set defined in a future RFC.
 - `skill.door_open` / `skill.stack_cube` / `skill.follow` / `skill.teleop_replay`.
 
 `skill.*` capabilities are only ever verified against a named eval; otherwise declared with `!`.
 
-#### 5.1.8 `data.*` (dataset / trajectory-bundle kinds — 0.2.0)
+#### 5.1.9 `data.*` (dataset / trajectory-bundle kinds — 0.2.0)
 
 - `data.episodes.<N>` — N demonstrations bundled.
 - `data.hz.<rate>` — control rate.
 - `data.embodiment.<slug>` — target robot slug (`so-100`, `franka_panda`, `unitree_g1`).
 
-#### 5.1.9 `safety.*` (all kinds — 0.2.0, MAY be declared at 0.1.0)
+#### 5.1.10 `safety.*` (all kinds — 0.2.0, MAY be declared at 0.1.0)
 
 Safety capabilities are **first-class**. Runtimes SHOULD refuse to execute an asset lacking required safety declarations on hardware.
 
