@@ -3,11 +3,14 @@
 // Add a new kind by adding a case here and a file under src/kinds/.
 
 import { deriveGlbCapabilities, inspectGlb } from "./kinds/glb.js";
+import { deriveRobotCapabilities } from "./kinds/robot.js";
 import type { Capability, Kind } from "./types.js";
 
 /**
  * Derive the verified capability set for an asset given its bytes and kind.
- * Returns [] if the kind is not yet implemented (URDF/MJCF/policy at 0.1.0).
+ * GLB is pure-TS. URDF/MJCF require the optional Rust `bmf-node` addon
+ * (returns [] when the native core is not built). Policy/dataset/trajectory
+ * remain stubs until later 0.2.0 days.
  */
 export function deriveCapabilities(kind: Kind, bytes: Uint8Array): Capability[] {
   switch (kind) {
@@ -17,10 +20,11 @@ export function deriveCapabilities(kind: Kind, bytes: Uint8Array): Capability[] 
     }
     case "urdf":
     case "mjcf":
+      return deriveRobotCapabilities(kind, bytes);
     case "policy":
     case "dataset":
     case "trajectory-bundle":
-      // Stubs — validators land in 0.2.0. Producers may still declare
+      // Stubs — validators land later in 0.2.0. Producers may still declare
       // capabilities suffixed with `!`; the gateway records but does not verify.
       return [];
   }

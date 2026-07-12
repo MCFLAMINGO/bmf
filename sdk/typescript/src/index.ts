@@ -15,7 +15,13 @@ export { assertValidRoyaltyChain, royaltyBpsSum } from "./royalties.js";
 export { mintBmfUri, parseBmfUri } from "./uri.js";
 export { loadManifest } from "./load.js";
 export type { LoadOptions, LoadResult } from "./load.js";
+export { loadNative } from "./native.js";
 
 // Kind-specific exports for advanced use.
 export { deriveGlbCapabilities, inspectGlb } from "./kinds/glb.js";
 export type { GlbLandmarks } from "./kinds/glb.js";
+export {
+  deriveRobotCapabilities,
+  sniffRobotKind,
+  verifyRobotDescriptor,
+} from "./kinds/robot.js";

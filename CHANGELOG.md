@@ -13,6 +13,12 @@ This project follows [Semantic Versioning](https://semver.org/) at the spec leve
   - `phys.jump` — muscle-driven vertical jump (crouch/launch/air/land) produced by real leg compression/extension through the `phys.muscle` actuators, not a clip.
   - Registry `params` declare specific tension (26.8 N/cm^2), gravity (9.81 m/s^2), and a 75 kg reference body mass so runtimes can rescale.
   - Reference runtime contract: Wild Wallet `client/src/lib/muscleModel.ts`.
+- Registry: mark Rust-implemented `kin.urdf` / `kin.mjcf` / `kin.arm` / `kin.mobile` / `kin.legged.*` / `kin.superhuman.joints` / `safety.workspace.limits` as `verifiable: true`.
+
+### SDK
+
+- GLB derivation now emits `phys.muscle` / `phys.stance` / `phys.jump` when full leg-chain landmarks are present. Shin (`l_leg`/`r_leg`) is matched separately from feet so the phys gates match the registry.
+- Day 3 start: optional Rust `bmf-node` loader (`loadNative`) + `verifyRobotDescriptor` / `deriveRobotCapabilities` for URDF and MJCF. Returns `[]` when the native addon is not built.
 
 ## [0.1.0] — 2026-07-10
 
