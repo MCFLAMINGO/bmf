@@ -1,0 +1,19 @@
+{
+  "type": "lerobot",
+  "dataset": {
+    "repo_id": "bmf/so100_pick_place_fixture",
+    "fps": 50
+  },
+  "policy": {
+    "type": "act"
+  },
+  "env": {
+    "type": "so100",
+    "task": "PickPlace"
+  },
+  "training": {
+    "offline_steps": 1000,
+    "batch_size": 8
+  },
+  "notes": "Dummy train_config.json — LeRobot checkpoint fingerprint only."
+}
