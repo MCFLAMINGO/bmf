@@ -1,7 +1,7 @@
 # BMF — Bake Manifest Format Specification
 
-**Version:** 0.1.0
-**Status:** Draft
+**Version:** 0.2.0
+**Status:** Released
 **Editor:** Erik Osol (MCFL)
 **License:** Apache-2.0
 
@@ -52,7 +52,7 @@ A BMF manifest is a JSON object with the following shape:
 
 ```json
 {
-  "bmf": "0.1.0",
+  "bmf": "0.2.0",
   "id": "bmf://<gateway-host>/asset/<slug-or-hash>",
   "kind": "glb",
   "mime": "model/gltf-binary",
@@ -94,7 +94,7 @@ A BMF manifest is a JSON object with the following shape:
 
 | Field | Type | Description |
 |---|---|---|
-| `bmf` | string | Spec version. MUST be `"0.1.0"` for this document. |
+| `bmf` | string | Spec version. MUST be `"0.1.0"` or `"0.2.0"`. New manifests SHOULD use `"0.2.0"`. |
 | `id` | string | Stable identifier. MUST be a URI. RECOMMENDED form: `bmf://<gateway-host>/asset/<opaque-id>`. |
 | `kind` | string | Asset kind. See §4. |
 | `mime` | string | IANA media type of the asset bytes. |
@@ -285,7 +285,7 @@ Response:
 
 ```json
 {
-  "bmf": "0.1.0",
+  "bmf": "0.2.0",
   "namespaces": ["humanoid", "mesh", "anim", "face", "kin", "policy", "skill", "data", "safety"],
   "verified": ["humanoid.mixamo24", "mesh.singleroot", "anim.gaze", "anim.breathe", "anim.wave", "anim.crouch", "anim.locomotion"],
   "declared_only": ["face.arkit52", "face.perfectsync", "safety.simonly"]
@@ -324,7 +324,7 @@ Response:
 
 ```json
 {
-  "bmf": "0.1.0",
+  "bmf": "0.2.0",
   "gateway": "https://gateway.example",
   "public_key": "base64url:MCowBQYDK2VwAyEA...",
   "endpoints": {

@@ -25,8 +25,12 @@ const LANDMARKS = [
   { key: "r_forearm",  terms: ["rightforearm", "right_forearm", "rightlowerarm", "right_lower_arm", "righthand", "right_hand", "r_hand", "r_forearm"] },
   { key: "l_up_leg",   terms: ["leftupleg", "leftthigh", "left_thigh", "leftupperleg", "left_upper_leg", "l_thigh", "upperleg_l"] },
   { key: "r_up_leg",   terms: ["rightupleg", "rightthigh", "right_thigh", "rightupperleg", "right_upper_leg", "r_thigh", "upperleg_r"] },
-  { key: "l_foot",     terms: ["leftfoot", "left_foot", "l_foot", "leftlowerleg", "left_lower_leg", "leftshin", "lowerleg_l"] },
-  { key: "r_foot",     terms: ["rightfoot", "right_foot", "r_foot", "rightlowerleg", "right_lower_leg", "rightshin", "lowerleg_r"] },
+  // Shin / lower-leg (Mixamo LeftLeg / RightLeg). Kept separate from feet so
+  // phys.muscle / phys.stance / phys.jump can require full leg chains.
+  { key: "l_leg",      terms: ["leftleg", "left_leg", "leftshin", "left_shin", "leftlowerleg", "left_lower_leg", "l_shin", "lowerleg_l", "calf_l"] },
+  { key: "r_leg",      terms: ["rightleg", "right_leg", "rightshin", "right_shin", "rightlowerleg", "right_lower_leg", "r_shin", "lowerleg_r", "calf_r"] },
+  { key: "l_foot",     terms: ["leftfoot", "left_foot", "l_foot", "foot_l", "leftankle", "left_ankle"] },
+  { key: "r_foot",     terms: ["rightfoot", "right_foot", "r_foot", "foot_r", "rightankle", "right_ankle"] },
 ] as const;
 
 type LandmarkKey = (typeof LANDMARKS)[number]["key"];
@@ -99,6 +103,16 @@ export function deriveGlbCapabilities(l: GlbLandmarks): Capability[] {
   if ((has("l_up_arm") && has("l_forearm")) || (has("r_up_arm") && has("r_forearm"))) caps.push("anim.wave");
   if (has("hips") && (has("l_up_leg") || has("r_up_leg"))) caps.push("anim.crouch");
   if (has("hips") && has("l_up_leg") && has("r_up_leg")) caps.push("anim.locomotion");
+
+  // phys.* — BMF 2.0 muscle-model namespace. Verified from landmark presence
+  // (same gate as the registry); the runtime contract is muscleModel.ts.
+  const bothLegs =
+    has("hips") && has("l_up_leg") && has("r_up_leg") && has("l_leg") && has("r_leg");
+  if (bothLegs) {
+    caps.push("phys.muscle");
+    caps.push("phys.stance");
+  }
+  if (bothLegs && has("l_foot") && has("r_foot")) caps.push("phys.jump");
 
   return caps.sort();
 }

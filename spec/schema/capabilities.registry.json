@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bmf.dev/schema/0.1.0/capabilities.registry.json",
+  "$id": "https://bmf.dev/schema/0.2.0/capabilities.registry.json",
   "title": "BMF Capabilities Registry",
-  "description": "The set of capabilities recognized at spec version 0.1.0. Each capability is either verified by a reference gateway or declared-only.",
-  "version": "0.1.0",
+  "description": "The set of capabilities recognized at spec version 0.2.0. Each capability is either verified by a reference gateway or declared-only.",
+  "version": "0.2.0",
   "namespaces": ["humanoid", "mesh", "anim", "phys", "face", "kin", "policy", "skill", "data", "safety"],
   "capabilities": {
     "humanoid.mixamo24": {
@@ -104,11 +104,14 @@
       "kinds": ["glb"],
       "status": "declared-only-at-0.1.0"
     },
-    "kin.urdf":            { "verifiable": false, "kinds": ["urdf"],  "planned": "0.2.0" },
-    "kin.mjcf":            { "verifiable": false, "kinds": ["mjcf"],  "planned": "0.2.0" },
-    "kin.arm":             { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
+    "kin.urdf":            { "verifiable": true,  "kinds": ["urdf"],  "description": "Parseable URDF; derived by bmf-core.", "planned": "0.2.0" },
+    "kin.mjcf":            { "verifiable": true,  "kinds": ["mjcf"],  "description": "Parseable MuJoCo MJCF; derived by bmf-core.", "planned": "0.2.0" },
+    "kin.arm":             { "verifiable": true,  "kinds": ["urdf", "mjcf"], "description": "At least one identifiable arm chain (≥5 actuated joints).", "planned": "0.2.0" },
     "kin.bimanual":        { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
-    "kin.mobile":          { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
+    "kin.mobile":          { "verifiable": true,  "kinds": ["urdf", "mjcf"], "description": "Non-fixed root (floating or planar base).", "planned": "0.2.0" },
+    "kin.legged.biped":    { "verifiable": true,  "kinds": ["urdf", "mjcf"], "description": "Floating-base biped morphology (exactly 4 non-short leaf chains).", "planned": "0.2.0" },
+    "kin.legged.quadruped":{ "verifiable": true,  "kinds": ["urdf", "mjcf"], "description": "Floating-base quadruped (4 short leaf chains).", "planned": "0.2.0" },
+    "kin.superhuman.joints":{ "verifiable": true, "kinds": ["urdf", "mjcf"], "description": "At least one continuous (unbounded) joint — Atlas-class.", "planned": "0.2.0" },
     "kin.gripper.parallel":{ "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
     "kin.gripper.suction": { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
     "kin.gripper.dex":     { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
@@ -123,7 +126,7 @@
     "policy.act.gripper":       { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
     "skill.pick_place":         { "verifiable": false, "kinds": ["policy", "trajectory-bundle"], "planned": "0.2.0" },
     "skill.teleop_replay":      { "verifiable": false, "kinds": ["trajectory-bundle"], "planned": "0.2.0" },
-    "safety.workspace.limits":  { "verifiable": false, "kinds": ["urdf", "mjcf", "policy"], "planned": "0.2.0" },
+    "safety.workspace.limits":  { "verifiable": true,  "kinds": ["urdf", "mjcf", "policy"], "description": "Every actuated joint has fully-specified limits (or is continuous).", "planned": "0.2.0" },
     "safety.dead_man":          { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
     "safety.simonly":           { "verifiable": false, "kinds": ["policy", "urdf", "mjcf"], "planned": "0.2.0", "enforcement": "runtime-must-refuse-on-hardware" }
   }

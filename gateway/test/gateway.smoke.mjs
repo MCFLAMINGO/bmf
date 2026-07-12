@@ -74,7 +74,7 @@ async function main() {
 
   // discovery
   const disc = await (await fetch(`${base}/.well-known/bmf.json`)).json();
-  if (disc.bmf !== "0.1.0") throw new Error(`discovery bmf version: ${disc.bmf}`);
+  if (disc.bmf !== "0.2.0") throw new Error(`discovery bmf version: ${disc.bmf}`);
   const caps = await (await fetch(`${base}/bmf/v1/capabilities`)).json();
   if (!caps.verified.includes("anim.wave")) throw new Error("capabilities missing anim.wave");
 

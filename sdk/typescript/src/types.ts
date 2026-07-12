@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 // BMF SDK — public types. Aligned with spec/SPEC.md §3.
 
-export const BMF_VERSION = "0.1.0" as const;
+export const BMF_VERSION = "0.2.0" as const;
+
+/** Spec versions this SDK can verify. New signs always use `BMF_VERSION`. */
+export const BMF_VERSIONS_SUPPORTED = ["0.1.0", "0.2.0"] as const;
 
 export type Sha256 = `sha256:${string}`;
 export type BmfUri = string;

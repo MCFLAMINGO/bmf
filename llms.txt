@@ -1,0 +1,41 @@
+# BMF — Bake Manifest Format
+
+> Spec **0.2.0**. https://github.com/MCFLAMINGO/bmf  
+> npm: `@mcflamingo/bmf-sdk` `@mcflamingo/bmf-node` `@mcflamingo/bmf-cli` `@mcflamingo/bmf-gateway`
+
+## Pitch (robotics)
+
+Signed capability verification before a policy or body descriptor is allowed to move hardware. URDF/MJCF morphology → `kin.*` / `safety.*` in **Rust** (`bmf-core`), exposed to Node (`bmf-node`) and Python (`bmf-py`). One core for lab notebooks and fleet gateways — no TS fork of the robot parsers.
+
+Target readers: robotics platform teams, foundation-model labs, fleet operators (Unitree, Spot SDK, Figure-class, PI, Isaac).
+
+## Architecture
+
+| Concern | Implementation |
+|---|---|
+| GLB / phys.* / anim.* | TypeScript SDK |
+| URDF / MJCF / kin.* / safety.workspace.limits | **Rust bmf-core only** |
+| Node FFI | `@mcflamingo/bmf-node` (napi-rs) |
+| Python FFI | `bmf-py` (PyO3) |
+
+## 0.2.0 capabilities
+
+phys.muscle, phys.stance, phys.jump (GLB).  
+kin.urdf, kin.mjcf, kin.arm, kin.dof.arm=N, kin.mobile, kin.legged.biped, kin.legged.quadruped, kin.superhuman.joints, safety.workspace.limits (Rust).
+
+## Install
+
+```
+npm install @mcflamingo/bmf-sdk@0.2.0
+```
+
+## Read next
+
+- README.md (human pitch)
+- RELEASE_NOTES_v0.2.0.md
+- spec/SPEC.md
+- spec/schema/capabilities.registry.json
+- docs/0.2.0-robotics-scope.md
+- docs/0.2.0-day2-verdict.md
+- docs/HANDOFF-2.0.md
+- core-rs/bmf-node/README.md

@@ -37,7 +37,7 @@ const hash = await assetHash(bytes);
 const caps = deriveCapabilities("glb", bytes);
 
 const signed = await signManifest({
-  bmf: "0.1.0",
+  bmf: "0.2.0",
   id: mintBmfUri("gateway.example", "arthur", hash),
   kind: "glb",
   mime: "model/gltf-binary",
@@ -67,7 +67,11 @@ console.log(JSON.stringify(signed, null, 2));
 | `assertValidRoyaltyChain(chain)` | Enforce shares sum to 10000. |
 | `mintBmfUri(gateway, slug, hash)` / `parseBmfUri(uri)` | URI helpers. |
 | `loadManifest(uri, opts?)` | Fetch + verify manifest and bytes over HTTP. |
-| `inspectGlb(bytes)` / `deriveGlbCapabilities(landmarks)` | Low-level GLB primitives. |
+| `inspectGlb(bytes)` / `deriveGlbCapabilities(landmarks)` | Low-level GLB primitives (incl. `phys.*`). |
+| `verifyRobotDescriptor(bytes)` | Sniff URDF/MJCF and derive `kin.*` via optional Rust `bmf-node`. |
+| `loadNative()` | Load `bmf-node` if built; otherwise `null`. |
+
+GLB derivation grants `phys.muscle` / `phys.stance` / `phys.jump` when full leg-chain landmarks are present. URDF/MJCF derivation requires a local `bmf_node.node` (see `docs/HANDOFF-2.0.md`); without it those kinds return `[]`.
 
 ## License
 

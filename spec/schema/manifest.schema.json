@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bmf.dev/schema/0.1.0/manifest.schema.json",
+  "$id": "https://bmf.dev/schema/0.2.0/manifest.schema.json",
   "title": "BMF Manifest",
   "description": "A signed, content-addressed manifest for an embodied asset.",
   "type": "object",
@@ -22,7 +22,8 @@
   "properties": {
     "bmf": {
       "type": "string",
-      "const": "0.1.0"
+      "enum": ["0.1.0", "0.2.0"],
+      "description": "Spec version. New manifests SHOULD use 0.2.0; 0.1.0 remains verifiable."
     },
     "id": {
       "type": "string",

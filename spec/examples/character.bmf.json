@@ -1,5 +1,5 @@
 {
-  "bmf": "0.1.0",
+  "bmf": "0.2.0",
   "id": "bmf://gateway.example/asset/arthur-6b4836d2",
   "kind": "glb",
   "mime": "model/gltf-binary",
@@ -13,7 +13,10 @@
     "anim.wave",
     "face.arkit52!",
     "humanoid.mixamo24",
-    "mesh.singleroot"
+    "mesh.singleroot",
+    "phys.jump",
+    "phys.muscle",
+    "phys.stance"
   ],
   "provenance": [
     { "step": "source", "source": "meshy://model/abc123", "notes": "generated from prompt" },
