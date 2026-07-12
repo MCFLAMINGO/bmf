@@ -4,11 +4,15 @@
 # and @mcflamingo/bmf-gateway when a version tag like v0.2.0 is pushed.
 #
 # Rust is required: kin.* verification is NOT reimplemented in TypeScript.
+#
+# Auth: needs secrets.NPM_TOKEN (npm Automation token with publish on @mcflamingo).
+# Do NOT set NODE_AUTH_TOKEN per-step to an empty secret — that clears setup-node auth.
 
 on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -25,18 +29,30 @@ jobs:
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
+          scope: "@mcflamingo"
 
-      - name: Write .npmrc with auth token
+      - name: Configure npm auth
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN_SECRET: ${{ secrets.NODE_AUTH_TOKEN }}
         run: |
-          cat > ~/.npmrc <<EOF
-          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+          TOKEN="${NPM_TOKEN:-$NODE_AUTH_TOKEN_SECRET}"
+          if [ -z "$TOKEN" ]; then
+            echo "::error::Missing npm publish token. Set repository secret NPM_TOKEN to an npm Automation token with publish rights for @mcflamingo, then re-run this workflow."
+            exit 1
+          fi
+          # Persist for subsequent steps (publish reads NODE_AUTH_TOKEN).
+          echo "NODE_AUTH_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+          # setup-node routes npm through NPM_CONFIG_USERCONFIG — write there.
+          CFG="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
+          cat > "$CFG" <<EOF
+          //registry.npmjs.org/:_authToken=${TOKEN}
           @mcflamingo:registry=https://registry.npmjs.org/
           registry=https://registry.npmjs.org/
           always-auth=true
           EOF
-          npm whoami || echo "whoami failed (may still publish OK)"
+          echo "npm whoami:"
+          npm whoami
 
       - name: Install JS workspaces
         run: npm ci
@@ -47,23 +63,14 @@ jobs:
       - name: Test (Rust + JS)
         run: npm test
 
-      # Order: native → sdk → cli/gateway
       - name: Publish bmf-node (Rust)
         run: npm publish --workspace core-rs/bmf-node --no-provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish sdk
         run: npm publish --workspace sdk/typescript --no-provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish cli
         run: npm publish --workspace cli --no-provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish gateway
         run: npm publish --workspace gateway --no-provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
