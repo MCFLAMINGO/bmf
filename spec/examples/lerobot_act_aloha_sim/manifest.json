@@ -1,0 +1,46 @@
+{
+  "bmf_policy_version": "0.2.0",
+  "framework": "lerobot",
+  "source": {
+    "hub_repo": "lerobot/act_aloha_sim_transfer_cube_human",
+    "license": "apache-2.0",
+    "note": "Official LeRobot ACT checkpoint. BMF wrap adds capability/safety metadata only — weights unchanged."
+  },
+  "arch": {
+    "family": "act",
+    "backbone": "resnet18",
+    "action_head": "act"
+  },
+  "observation_space": {
+    "rgb": {
+      "shape": [480, 640, 3],
+      "cameras": ["top"]
+    },
+    "proprio": {
+      "shape": [14],
+      "includes": ["joint_positions"]
+    }
+  },
+  "action_space": {
+    "joint": {
+      "shape": [14],
+      "limits": null
+    },
+    "chunk_size": 100,
+    "control_hz": 50
+  },
+  "embodiment": {
+    "targets": ["arm"],
+    "supported_robots": [
+      { "name": "ALOHA-sim", "robot_hash": "sha256:aloha-sim-transfer-cube" }
+    ],
+    "crossbody": false
+  },
+  "safety": {
+    "dead_man": true,
+    "sim_only": true,
+    "max_ee_velocity_m_s": 0.5,
+    "max_force_N": 25.0
+  },
+  "notes": "Real LeRobot ACT weights from lerobot/act_aloha_sim_transfer_cube_human (AlohaTransferCube-v0 sim). sim_only=true — BMF must REFUSE hardware execution."
+}

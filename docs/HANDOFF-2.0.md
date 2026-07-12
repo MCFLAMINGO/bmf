@@ -12,7 +12,7 @@ Repo: `MCFLAMINGO/bmf`
 |------|--------|
 | Spec | **0.2.0** |
 | Rust core | `core-rs/` — `bmf-core`, `bmf-node`, `bmf-py` |
-| npm | `@mcflamingo/bmf-node`, `bmf-sdk`, `bmf-cli`, `bmf-gateway` @ 0.2.0 |
+| npm | `@mcflamingo/bmf-node`, `bmf-sdk`, `bmf-cli`, `bmf-gateway` @ **0.2.1** |
 | Machine summary | `llms.txt` |
 | Release notes | `RELEASE_NOTES_v0.2.0.md` |
 
@@ -24,6 +24,14 @@ Repo: `MCFLAMINGO/bmf`
 
 Verified only via `@mcflamingo/bmf-node`. Build: `npm run build -w @mcflamingo/bmf-node`.
 
+## Real policy wrap
+
+- Script: `scripts/wrap-lerobot-act-aloha-sim.sh`
+- Upstream: `lerobot/act_aloha_sim_transfer_cube_human` (ACT, AlohaTransferCube-v0 sim)
+- Publish as `MCFL/bmf-lerobot-act-aloha-sim-wrap` (Erik HF upload; ~200MB)
+
 ## Still open
 
-Policy/trajectory/choreography kinds; multi-arch prebuilds; Arthur prod QA on Wild Wallet (private).
+Trajectory/choreography kinds; multi-arch prebuilds; Arthur prod QA on Wild Wallet (private).
+Wrap additional Hub policies (SO-100 ACT community checkpoints) after the ALOHA sim wrap is live.
+

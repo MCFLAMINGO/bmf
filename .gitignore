@@ -15,3 +15,8 @@ coverage/
 *.key
 .smoke/
 *.tgz
+
+# Real checkpoint wrap outputs (download via scripts/wrap-lerobot-act-aloha-sim.sh)
+spec/examples/lerobot_act_aloha_sim/dist/
+*.bmf.tar
+*.bmf.tar.zst

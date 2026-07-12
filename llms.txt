@@ -23,6 +23,12 @@ Target readers: robotics platform teams, foundation-model labs, fleet operators 
 phys.muscle, phys.stance, phys.jump (GLB).  
 kin.urdf, kin.mjcf, kin.arm, kin.dof.arm=N, kin.mobile, kin.legged.biped, kin.legged.quadruped, kin.superhuman.joints, safety.workspace.limits (Rust).
 
+## Real checkpoint wrap
+
+Official ACT sim: `lerobot/act_aloha_sim_transfer_cube_human` → BMF wrap via `scripts/wrap-lerobot-act-aloha-sim.sh`.
+Suggested HF: `MCFL/bmf-lerobot-act-aloha-sim-wrap` (weights + manifest; `safety.simonly`).
+Skip multi-GB VLAs (FastWAM / VLA-JEPA) for the first wrap.
+
 ## LeRobot policy gate (0.2.1)
 
 Rust `parse_policy` on `.tar`/`.tar.zst` → `policy.framework.lerobot` + obs/act + `safety.simonly`.  
