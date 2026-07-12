@@ -3,22 +3,24 @@
 All notable changes to the BMF spec and reference implementations are documented here.
 This project follows [Semantic Versioning](https://semver.org/) at the spec level.
 
-## [Unreleased]
+## [0.2.0] — 2026-07-12
+
+### Positioning
+
+Robotics kinds are verified in **Rust** (`bmf-core` → `@mcflamingo/bmf-node` / `bmf-py`). No TypeScript URDF/MJCF reimplementation — the upgrade is meant to be credible to large robotics platform and lab buyers.
 
 ### Spec
 
-- New `phys.*` capability namespace (GLB kind): assets driven by BMF's anatomically grounded muscle model rather than baked clips. Bone positions are the OUTPUT of a per-joint Hill-type muscle-torque vs gravity-torque balance.
-  - `phys.muscle` — whole-skeleton Hill-type joint-actuator model. Peak torque per joint derived from PCSA times specific tension 26.8 N/cm^2, modulated by force-length and force-velocity factors (Anderson & Pandy 2007). Seven modeled joints; self-consistent with published peak torques within 1%.
-  - `phys.stance` — quiet-stance solver (`standingPose()`) that resolves an arbitrary bind-pose crouch to a believable near-straight stand under body weight plus tonic muscle stiffness. Adds a frontal-plane stance-width term: hip abductors (gluteus medius/minimus) hold each thigh in ~9 deg of abduction (`JOINTS.hipAbduction`) so the feet plant shoulder-width apart instead of converging.
-  - `phys.jump` — muscle-driven vertical jump (crouch/launch/air/land) produced by real leg compression/extension through the `phys.muscle` actuators, not a clip.
-  - Registry `params` declare specific tension (26.8 N/cm^2), gravity (9.81 m/s^2), and a 75 kg reference body mass so runtimes can rescale.
-  - Reference runtime contract: Wild Wallet `client/src/lib/muscleModel.ts`.
-- Registry: mark Rust-implemented `kin.urdf` / `kin.mjcf` / `kin.arm` / `kin.mobile` / `kin.legged.*` / `kin.superhuman.joints` / `safety.workspace.limits` as `verifiable: true`.
+- Spec version **0.2.0**. Manifest `bmf` field accepts `0.1.0` | `0.2.0`.
+- New `phys.*` capability namespace (GLB): Hill-type muscle-torque vs gravity; `phys.muscle`, `phys.stance` (stance-width), `phys.jump`.
+- Registry: Rust-implemented `kin.urdf` / `kin.mjcf` / `kin.arm` / `kin.mobile` / `kin.legged.*` / `kin.superhuman.joints` / `safety.workspace.limits` marked `verifiable: true`.
 
-### SDK
+### Rust / npm
 
-- GLB derivation now emits `phys.muscle` / `phys.stance` / `phys.jump` when full leg-chain landmarks are present. Shin (`l_leg`/`r_leg`) is matched separately from feet so the phys gates match the registry.
-- Day 3 start: optional Rust `bmf-node` loader (`loadNative`) + `verifyRobotDescriptor` / `deriveRobotCapabilities` for URDF and MJCF. Returns `[]` when the native addon is not built.
+- New package **`@mcflamingo/bmf-node@0.2.0`** (napi-rs). Source of truth for URDF/MJCF → `kin.*`.
+- `@mcflamingo/bmf-sdk@0.2.0` depends on `bmf-node`; GLB emits `phys.*`; robot kinds call Rust.
+- `@mcflamingo/bmf-cli@0.2.0`, `@mcflamingo/bmf-gateway@0.2.0`.
+- CI builds Rust; publish workflow publishes `bmf-node` first.
 
 ## [0.1.0] — 2026-07-10
 

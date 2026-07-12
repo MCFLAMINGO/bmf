@@ -1,5 +1,5 @@
 {
-  "bmf": "0.1.0",
+  "bmf": "0.2.0",
   "id": "bmf://gateway.example/asset/arthur-6b4836d2",
   "kind": "glb",
   "mime": "model/gltf-binary",

@@ -7,8 +7,8 @@
   "homepage": "https://github.com/MCFLAMINGO/bmf/tree/main/cli#readme",
   "bugs": "https://github.com/MCFLAMINGO/bmf/issues",
   "keywords": ["bmf", "cli", "manifest", "ed25519", "signing", "3d", "glb", "robotics"],
-  "version": "0.1.0",
-  "description": "BMF command-line tool: verify, sign, inspect, keygen.",
+  "version": "0.2.0",
+  "description": "BMF CLI 0.2.0: verify, sign, inspect, keygen (GLB + Rust URDF/MJCF).",
   "license": "Apache-2.0",
   "author": "Erik Osol <erik@mcflamingo.com>",
   "repository": {
@@ -31,7 +31,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@mcflamingo/bmf-sdk": "^0.1.0"
+    "@mcflamingo/bmf-sdk": "^0.2.0"
   },
   "devDependencies": {
     "typescript": "^5.5.0",

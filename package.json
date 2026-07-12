@@ -1,17 +1,21 @@
 {
   "name": "bmf-monorepo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "BMF — signed, content-addressed manifest format for embodied assets.",
   "license": "Apache-2.0",
   "workspaces": [
+    "core-rs/bmf-node",
     "sdk/typescript",
     "cli",
     "gateway",
     "examples/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "build:native": "npm run build -w @mcflamingo/bmf-node",
+    "build": "npm run build:native && npm run build --workspaces --if-present",
+    "test:native": "npm run test -w @mcflamingo/bmf-node",
+    "test:rust": "cargo test --manifest-path core-rs/Cargo.toml",
+    "test": "npm run test:rust && npm run test:native && npm run test --workspaces --if-present"
   }
 }

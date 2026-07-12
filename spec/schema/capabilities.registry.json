@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bmf.dev/schema/0.1.0/capabilities.registry.json",
+  "$id": "https://bmf.dev/schema/0.2.0/capabilities.registry.json",
   "title": "BMF Capabilities Registry",
-  "description": "The set of capabilities recognized at spec version 0.1.0. Each capability is either verified by a reference gateway or declared-only.",
-  "version": "0.1.0",
+  "description": "The set of capabilities recognized at spec version 0.2.0. Each capability is either verified by a reference gateway or declared-only.",
+  "version": "0.2.0",
   "namespaces": ["humanoid", "mesh", "anim", "phys", "face", "kin", "policy", "skill", "data", "safety"],
   "capabilities": {
     "humanoid.mixamo24": {

@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-// Optional Rust core (bmf-node) loader for URDF/MJCF capability derivation.
+// Load the Rust bmf-core bindings (@mcflamingo/bmf-node).
 //
-// The npm package ships without a prebuilt .node (Day 12). In the monorepo,
-// `cargo build -p bmf-node --release` produces
-// `core-rs/target/release/libbmf_node.so`; copy/rename it to `bmf_node.node`
-// and this loader finds it. When the addon is absent, robot kinds return [].
+// Robotics kinds (urdf/mjcf → kin.*) are verified ONLY through Rust.
+// There is intentionally no TypeScript reimplementation of those parsers.
 
 import { createRequire } from "node:module";
 import { existsSync } from "node:fs";
@@ -18,36 +16,42 @@ export interface NativeBindings {
 
 let cached: NativeBindings | null | undefined;
 
-function candidatePaths(): string[] {
-  const here = dirname(fileURLToPath(import.meta.url));
-  return [
-    // Monorepo release / debug builds (from src/ or dist/).
-    resolve(here, "../../../core-rs/target/release/bmf_node.node"),
-    resolve(here, "../../../core-rs/target/release/libbmf_node.so"),
-    resolve(here, "../../../core-rs/target/debug/bmf_node.node"),
-    resolve(here, "../../../core-rs/target/debug/libbmf_node.so"),
-    // Optional vendored copy next to the package.
-    resolve(here, "../native/bmf_node.node"),
-    resolve(here, "./bmf_node.node"),
-  ];
+function tryRequire(require: NodeRequire, pathOrId: string): NativeBindings | null {
+  try {
+    return require(pathOrId) as NativeBindings;
+  } catch {
+    return null;
+  }
 }
 
-/** Load bmf-node if present. Returns null when the native addon is unavailable. */
+/** Load Rust bmf-node. Returns null when the addon is unavailable on this platform. */
 export function loadNative(): NativeBindings | null {
   if (cached !== undefined) return cached;
   const require = createRequire(import.meta.url);
-  for (const path of candidatePaths()) {
+  const here = dirname(fileURLToPath(import.meta.url));
+
+  // 1) Published / workspace package (preferred).
+  const fromPkg = tryRequire(require, "@mcflamingo/bmf-node");
+  if (fromPkg) {
+    cached = fromPkg;
+    return cached;
+  }
+
+  // 2) Monorepo cargo output (dev without workspace link).
+  const localCandidates = [
+    resolve(here, "../../../core-rs/bmf-node/bmf_node.node"),
+    resolve(here, "../../../core-rs/target/release/bmf_node.node"),
+    resolve(here, "../../../core-rs/target/debug/bmf_node.node"),
+  ];
+  for (const path of localCandidates) {
     if (!existsSync(path)) continue;
-    // Node only loads ELF addons via a `.node` extension. If we only have the
-    // cargo-produced `.so`, skip it here — callers must copy to `.node`.
-    if (path.endsWith(".so")) continue;
-    try {
-      cached = require(path) as NativeBindings;
+    const hit = tryRequire(require, path);
+    if (hit) {
+      cached = hit;
       return cached;
-    } catch {
-      // try next candidate
     }
   }
+
   cached = null;
   return null;
 }

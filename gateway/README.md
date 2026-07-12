@@ -6,7 +6,7 @@ Reference BMF gateway. Single-file Express server, SQLite-backed, npx-runnable.
 
 ```bash
 npx @mcflamingo/bmf-gateway
-# bmf gateway 0.1.0 on http://localhost:8787
+# bmf gateway 0.2.0 on http://localhost:8787
 ```
 
 The first run generates an Ed25519 signing key at `./bmf-gateway.key` and a SQLite database at `./bmf-gateway.db`. Both paths are configurable via env.

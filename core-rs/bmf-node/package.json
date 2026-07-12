@@ -1,0 +1,52 @@
+{
+  "name": "@mcflamingo/bmf-node",
+  "version": "0.2.0",
+  "description": "Rust core bindings for BMF — URDF/MJCF parse + kin.* capability derivation (napi-rs). Source of truth for robotics kinds; do not reimplement in TypeScript.",
+  "license": "Apache-2.0",
+  "author": "Erik Osol <erik@mcflamingo.com>",
+  "homepage": "https://github.com/MCFLAMINGO/bmf/tree/main/core-rs/bmf-node#readme",
+  "bugs": "https://github.com/MCFLAMINGO/bmf/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MCFLAMINGO/bmf.git",
+    "directory": "core-rs/bmf-node"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": false
+  },
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "bmf_node.node",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/smoke.mjs",
+    "prepublishOnly": "node scripts/build.mjs && node scripts/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "keywords": [
+    "bmf",
+    "rust",
+    "urdf",
+    "mjcf",
+    "napi",
+    "robotics",
+    "kinematics"
+  ]
+}

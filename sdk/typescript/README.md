@@ -37,7 +37,7 @@ const hash = await assetHash(bytes);
 const caps = deriveCapabilities("glb", bytes);
 
 const signed = await signManifest({
-  bmf: "0.1.0",
+  bmf: "0.2.0",
   id: mintBmfUri("gateway.example", "arthur", hash),
   kind: "glb",
   mime: "model/gltf-binary",

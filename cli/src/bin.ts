@@ -14,6 +14,7 @@ import {
   assetHash,
   assertValidRoyaltyChain,
   BMF_VERSION,
+  BMF_VERSIONS_SUPPORTED,
   deriveCapabilities,
   isKind,
   KINDS,
@@ -66,7 +67,7 @@ async function cmdVerify(args: string[]): Promise<number> {
   const bytes = new Uint8Array(await readFile(assetPath));
   const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as Manifest;
 
-  const versionOk = manifest.bmf === BMF_VERSION;
+  const versionOk = (BMF_VERSIONS_SUPPORTED as readonly string[]).includes(manifest.bmf);
   const notExpired = !manifest.expires_at || Date.parse(manifest.expires_at) >= Date.now();
   const sigOk = await verifyManifest(manifest);
   const actualHash = await assetHash(bytes);
@@ -74,7 +75,7 @@ async function cmdVerify(args: string[]): Promise<number> {
   const bytesOk = manifest.bytes === bytes.byteLength;
 
   const rows: [string, boolean, string?][] = [
-    ["bmf version",         versionOk, `${manifest.bmf} declared / ${BMF_VERSION} supported`],
+    ["bmf version",         versionOk, `${manifest.bmf} declared / supports ${BMF_VERSIONS_SUPPORTED.join(", ")}`],
     ["not expired",         notExpired, manifest.expires_at ?? "no expiry"],
     ["signature (ed25519)", sigOk],
     ["asset_hash matches",  hashOk, hashOk ? actualHash : `expected ${manifest.asset_hash}, got ${actualHash}`],

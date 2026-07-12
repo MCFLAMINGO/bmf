@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // @mcflamingo/bmf-sdk — public API.
 
-export { BMF_VERSION, KINDS, isKind } from "./types.js";
+export { BMF_VERSION, BMF_VERSIONS_SUPPORTED, KINDS, isKind } from "./types.js";
 export type {
   BmfUri, Capability, Kind, Manifest, Provenance, Royalty,
   Sha256, Signature, UnsignedManifest, X402Challenge, X402Price,

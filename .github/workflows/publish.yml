@@ -1,13 +1,9 @@
-name: Publish to npm
+# Publish to npm
 
-# Publishes @mcflamingo/bmf-sdk, @mcflamingo/bmf-cli, and @mcflamingo/bmf-gateway
-# to npm using an NPM_TOKEN with Bypass-2FA enabled (bootstrap path — the packages
-# don't exist yet, so trusted publishing can't be configured until after v0.1.0
-# lands). Once all three are on npm, configure trusted publishing per package,
-# revoke NPM_TOKEN, and switch this workflow back to OIDC (see the trusted-
-# publishing block commented at the bottom of this file).
+# Publishes @mcflamingo/bmf-node (Rust), @mcflamingo/bmf-sdk, @mcflamingo/bmf-cli,
+# and @mcflamingo/bmf-gateway when a version tag like v0.2.0 is pushed.
 #
-# Trigger: pushing a version tag like v0.1.0 or v1.2.3.
+# Rust is required: kin.* verification is NOT reimplemented in TypeScript.
 
 on:
   push:
@@ -22,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
 
       - uses: actions/setup-node@v4
         with:
@@ -38,21 +36,23 @@ jobs:
           registry=https://registry.npmjs.org/
           always-auth=true
           EOF
-          echo "whoami check:"
           npm whoami || echo "whoami failed (may still publish OK)"
 
-      - name: Install
+      - name: Install JS workspaces
         run: npm ci
 
-      - name: Build all workspaces
+      - name: Build Rust bmf-node (+ workspaces)
         run: npm run build
 
-      - name: Test all workspaces
+      - name: Test (Rust + JS)
         run: npm test
 
-      # Order matters: cli and gateway depend on the sdk.
-      # --no-provenance because provenance requires OIDC trusted publishing,
-      # which requires the package to already exist on npm. Chicken-and-egg.
+      # Order: native → sdk → cli/gateway
+      - name: Publish bmf-node (Rust)
+        run: npm publish --workspace core-rs/bmf-node --no-provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish sdk
         run: npm publish --workspace sdk/typescript --no-provenance --access public
         env:
@@ -67,18 +67,3 @@ jobs:
         run: npm publish --workspace gateway --no-provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-# --- Trusted publishing block (uncomment after first successful publish) ---
-#
-# permissions:
-#   contents: read
-#   id-token: write
-#
-# jobs:
-#   publish:
-#     runs-on: ubuntu-latest
-#     environment: npm-publish
-#     ...
-#     - name: Publish sdk
-#       run: npm publish --workspace sdk/typescript
-#     ...

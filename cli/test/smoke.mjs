@@ -60,7 +60,7 @@ if (!verifyOut.stdout.includes("OK — manifest verifies.")) throw new Error(`ve
 // ── Inspect ──
 const inspectOut = run("inspect", manifestPath);
 const parsed = JSON.parse(inspectOut.stdout.split("\n\n")[0]);
-if (parsed.bmf !== "0.1.0") throw new Error(`inspect returned wrong version: ${parsed.bmf}`);
+if (parsed.bmf !== "0.2.0") throw new Error(`inspect returned wrong version: ${parsed.bmf}`);
 if (!parsed.capabilities.includes("anim.wave")) throw new Error(`inspect missing anim.wave`);
 
 // ── Tamper detection ──

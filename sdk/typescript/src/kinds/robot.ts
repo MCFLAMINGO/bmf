@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // BMF SDK — URDF / MJCF kind dispatch via the Rust core (bmf-node).
 //
+// Rust (bmf-core via @mcflamingo/bmf-node) is the ONLY verifier for robotics
+// kinds. Do not add a TypeScript URDF/MJCF capability reimplementation here.
 // Capability names are flattened to the string form the rest of the SDK uses
 // (`kin.dof.arm=7`). When the native addon is missing, returns [].
 
