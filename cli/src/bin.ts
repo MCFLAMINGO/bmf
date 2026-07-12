@@ -6,6 +6,7 @@
 //   bmf verify <asset> <manifest>       Verify signature + asset_hash.
 //   bmf sign   <asset> [--out <file>]   Sign a fresh manifest for an asset.
 //   bmf inspect <uri-or-file>           Pretty-print a manifest with a summary.
+//   bmf check-safety <bundle> [--hardware]  Gate a policy bundle for hardware.
 //   bmf keygen [--out <file>]           Generate an Ed25519 keypair.
 
 import { readFile, writeFile } from "node:fs/promises";
@@ -15,6 +16,7 @@ import {
   assertValidRoyaltyChain,
   BMF_VERSION,
   BMF_VERSIONS_SUPPORTED,
+  checkHardwareAllowed,
   deriveCapabilities,
   isKind,
   KINDS,
@@ -37,6 +39,7 @@ Usage:
                      [--recipient <did>] [--gateway <host>]
                      [--out <manifest.bmf.json>]
   bmf inspect <bmf-uri | manifest.bmf.json>
+  bmf check-safety <policy.tar[.zst]> [--hardware]
   bmf keygen [--out <private-key-file>]
 `;
 
@@ -46,6 +49,7 @@ async function main(argv: string[]): Promise<number> {
     case "verify":  return cmdVerify(rest);
     case "sign":    return cmdSign(rest);
     case "inspect": return cmdInspect(rest);
+    case "check-safety": return cmdCheckSafety(rest);
     case "keygen":  return cmdKeygen(rest);
     case "-h": case "--help": case undefined:
       process.stdout.write(USAGE);
@@ -167,6 +171,42 @@ async function cmdInspect(args: string[]): Promise<number> {
   return verified ? 0 : 1;
 }
 
+// ── check-safety ────────────────────────────────────────────────────────────
+
+async function cmdCheckSafety(args: string[]): Promise<number> {
+  const { positional, flags } = parseFlags(args);
+  const bundlePath = positional[0];
+  if (!bundlePath) {
+    process.stderr.write("usage: bmf check-safety <policy.tar[.zst]> [--hardware]\n");
+    return 2;
+  }
+  const hardware = Object.prototype.hasOwnProperty.call(flags, "hardware");
+  const bytes = new Uint8Array(await readFile(bundlePath));
+  const caps = deriveCapabilities("policy", bytes);
+  process.stdout.write(`capabilities: ${caps.join(", ") || "(none)"}\n`);
+  if (!hardware) {
+    process.stdout.write("mode: sim (no hardware gate)\nOK — bundle parsed.\n");
+    return caps.length > 0 ? 0 : 1;
+  }
+  const gate = checkHardwareAllowed(caps);
+  if (gate.allowed) {
+    process.stdout.write("mode: hardware\nOK — allowed on physical hardware.\n");
+    return 0;
+  }
+  process.stdout.write(`mode: hardware\nREFUSED — ${gate.reason}\n`);
+  // Local refusal record (Day 8 transport: local file; gateway optional later).
+  const record = {
+    bmf_refusal_version: "0.2.0",
+    capability: "safety.simonly",
+    asset: bundlePath,
+    capabilities: caps,
+    reason: gate.reason,
+    at: new Date().toISOString(),
+  };
+  process.stdout.write(`refusal_record: ${JSON.stringify(record)}\n`);
+  return 1;
+}
+
 // ── keygen ──────────────────────────────────────────────────────────────────
 
 async function cmdKeygen(args: string[]): Promise<number> {
@@ -205,7 +245,9 @@ function parseFlags(argv: string[]): Flags {
 }
 
 function guessKind(path: string): Kind {
-  const ext = path.toLowerCase().split(".").pop() ?? "";
+  const lower = path.toLowerCase();
+  if (lower.endsWith(".tar.zst") || lower.endsWith(".tar")) return "policy";
+  const ext = lower.split(".").pop() ?? "";
   if (ext === "glb") return "glb";
   if (ext === "urdf") return "urdf";
   if (ext === "mjcf" || ext === "xml") return "mjcf";
@@ -218,7 +260,7 @@ function mimeFor(kind: Kind): string {
     case "glb":  return "model/gltf-binary";
     case "urdf": return "application/xml";
     case "mjcf": return "application/xml";
-    case "policy": return "application/octet-stream";
+    case "policy": return "application/x-bmf-policy-tar-zst";
     case "dataset": return "application/x-lerobot-dataset";
     case "trajectory-bundle": return "application/x-bmf-trajectory";
   }

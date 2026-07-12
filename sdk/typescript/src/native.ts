@@ -12,6 +12,8 @@ import { fileURLToPath } from "node:url";
 export interface NativeBindings {
   parseUrdf(src: string): string;
   parseMjcf(src: string): string;
+  parsePolicy?(bytes: Buffer): string;
+  checkHardwareAllowed?(capabilities: string[]): string;
 }
 
 let cached: NativeBindings | null | undefined;

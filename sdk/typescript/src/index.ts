@@ -25,3 +25,8 @@ export {
   sniffRobotKind,
   verifyRobotDescriptor,
 } from "./kinds/robot.js";
+export {
+  checkHardwareAllowed,
+  derivePolicyCapabilities,
+  sniffPolicyBundle,
+} from "./kinds/policy.js";

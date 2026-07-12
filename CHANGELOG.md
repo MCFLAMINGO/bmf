@@ -3,6 +3,18 @@
 All notable changes to the BMF spec and reference implementations are documented here.
 This project follows [Semantic Versioning](https://semver.org/) at the spec level.
 
+## [Unreleased]
+
+### Policy / LeRobot (Rust)
+
+- New `bmf-core` policy parser for `.tar` / `.tar.zst` bundles (`policy.rs`).
+- Verifies `policy.framework.lerobot` from `config.json` + `manifest.framework`.
+- Derives `policy.obs.*`, `policy.act.*`, `safety.simonly`, `safety.dead_man` from `manifest.json`.
+- Hardware gate: `assert_hardware_allowed` / `bmf check-safety --hardware` / `checkHardwareAllowed()` — refuses when `safety.simonly`.
+- Fixture: `spec/examples/lerobot_so100_act.tar.zst` (SO-100 shaped, dummy weights, sim_only).
+- Demo: `examples/lerobot-gate` — 2-minute fleet gate script.
+- FFI: `parse_policy` + `check_hardware_allowed` on `bmf-node` and `bmf-py`.
+
 ## [0.2.0] — 2026-07-12
 
 ### Positioning

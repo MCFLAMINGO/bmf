@@ -18,6 +18,9 @@ if (!existsSync(nodePath)) {
 const native = require(nodePath);
 const so100 = readFileSync(join(root, "spec/examples/so100.urdf"), "utf8");
 const go2 = readFileSync(join(root, "spec/examples/unitree_go2.mjcf"), "utf8");
+const policyPath = existsSync(join(root, "spec/examples/lerobot_so100_act.tar.zst"))
+  ? join(root, "spec/examples/lerobot_so100_act.tar.zst")
+  : join(root, "spec/examples/lerobot_so100_act.tar");
 
 const urdf = JSON.parse(native.parseUrdf(so100));
 const mjcf = JSON.parse(native.parseMjcf(go2));
@@ -32,4 +35,17 @@ if (!mjcfNames.includes("kin.mjcf") || !mjcfNames.includes("kin.legged.quadruped
   console.error("FAIL go2", mjcfNames);
   process.exit(1);
 }
-console.log("bmf-node smoke: PASS", { urdf: urdfNames, mjcf: mjcfNames });
+
+const policyBytes = readFileSync(policyPath);
+const policy = JSON.parse(native.parsePolicy(policyBytes));
+const policyNames = policy.capabilities.map((c) => c.name);
+if (!policyNames.includes("policy.framework.lerobot") || !policyNames.includes("safety.simonly")) {
+  console.error("FAIL policy", policyNames);
+  process.exit(1);
+}
+const gate = JSON.parse(native.checkHardwareAllowed(policyNames));
+if (gate.allowed) {
+  console.error("FAIL expected hardware refusal", gate);
+  process.exit(1);
+}
+console.log("bmf-node smoke: PASS", { urdf: urdfNames, mjcf: mjcfNames, policy: policyNames, gate });

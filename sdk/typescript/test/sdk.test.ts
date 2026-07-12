@@ -96,9 +96,8 @@ test("hasCapability accepts verified and declared forms", () => {
   ok(!hasCapability(m, "anim.crouch"));
 });
 
-test("deriveCapabilities returns [] for policy stub; urdf empty without valid XML", () => {
-  // Empty bytes aren't a robot descriptor — native may be present but parse fails / sniff N/A.
-  deepStrictEqual(deriveCapabilities("policy", new Uint8Array()), []);
+test("deriveCapabilities returns [] for dataset stub", () => {
+  deepStrictEqual(deriveCapabilities("dataset", new Uint8Array()), []);
 });
 
 test("deriveCapabilities on a synthetic humanoid GLB", () => {
