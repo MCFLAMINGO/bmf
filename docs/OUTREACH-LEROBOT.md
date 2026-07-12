@@ -1,8 +1,15 @@
 # Outreach — BMF × LeRobot (ready to send)
 
-## Target
-- Hugging Face LeRobot Discord / Discussions, or
-- A maintainer / robotics engineer who already uses SO-100 / LeRobot
+## Reality check (new accounts)
+
+LeRobot Discord / GitHub Discussions often **block brand-new users**. That is not a BMF problem — you do **not** need contributor rights to finish the wedge.
+
+Already shipped without their permission:
+- npm `@mcflamingo/bmf-cli@0.2.1`
+- public fixture https://huggingface.co/MCFL/bmf-lerobot-so100-act-fixture
+- GitHub https://github.com/MCFLAMINGO/bmf
+
+The “ask for a real checkpoint” is optional amplification. Use a channel you can actually post in.
 
 ## Subject / title
 Signed capability gate for LeRobot policies — refuse `sim_only` before hardware
@@ -32,7 +39,36 @@ bmf check-safety lerobot_so100_act.tar.zst --hardware
 — Erik Osol / MCFL  
 https://github.com/MCFLAMINGO/bmf
 
-## Where to post
-1. https://github.com/huggingface/lerobot/discussions — new discussion
-2. LeRobot Discord (if you’re in it) — #general or #show-and-tell
-3. Optional later: RAI / Unitree-adjacent once a real policy is wrapped
+## Where to post (if you’re blocked as a new user)
+
+### Works now (preferred)
+1. **Your own X account** — post the short version below, tag `@LeRobotHF`
+2. **Your HF model Discussions** — https://huggingface.co/MCFL/bmf-lerobot-so100-act-fixture/discussions (you own this; new-user blocks usually don’t apply)
+3. **Reply to a public LeRobot / SO-100 thread** you already can comment on (X, LinkedIn, blog)
+
+### Often blocked for new accounts
+4. https://github.com/huggingface/lerobot/discussions — needs GitHub discussion rights / account age
+5. LeRobot Discord https://discord.gg/q8Dzzpym3f — often needs phone verify / account age; try again later, don’t spam join
+
+### Do not do
+- Open a fake “bug” issue on `huggingface/lerobot` just to advertise
+- Mass-DM maintainers
+
+## Short X version (copy-paste)
+
+```
+Signed capability gate for LeRobot policies:
+
+download a .tar.zst → BMF verifies in Rust → refuses hardware if safety.simonly
+
+npm i -g @mcflamingo/bmf-cli@0.2.1
+hf download MCFL/bmf-lerobot-so100-act-fixture lerobot_so100_act.tar.zst
+bmf check-safety lerobot_so100_act.tar.zst --hardware
+
+Looking for one real public ACT/Diffusion checkpoint to wrap as a reference bundle.
+@LeRobotHF https://github.com/MCFLAMINGO/bmf
+```
+
+## If nobody replies
+
+You’re still fine. Next product move is wrap **any** public LeRobot checkpoint yourself (pick one from https://huggingface.co/lerobot) and publish a second fixture — no permission required for that.
