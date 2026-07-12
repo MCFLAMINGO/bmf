@@ -6,7 +6,7 @@
   },
   "homepage": "https://github.com/MCFLAMINGO/bmf/tree/main/sdk/typescript#readme",
   "bugs": "https://github.com/MCFLAMINGO/bmf/issues",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "BMF SDK 0.2.0: verify, sign, canonicalize, and derive capabilities (GLB phys.* + Rust-backed URDF/MJCF kin.*).",
   "license": "Apache-2.0",
   "author": "Erik Osol <erik@mcflamingo.com>",
@@ -35,7 +35,7 @@
   },
   "keywords": ["bmf", "manifest", "ed25519", "signing", "3d", "glb", "robotics", "urdf", "policy", "capabilities"],
   "dependencies": {
-    "@mcflamingo/bmf-node": "^0.2.0",
+    "@mcflamingo/bmf-node": "^0.2.1",
     "@noble/ed25519": "^2.1.0"
   },
   "devDependencies": {

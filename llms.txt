@@ -23,10 +23,12 @@ Target readers: robotics platform teams, foundation-model labs, fleet operators 
 phys.muscle, phys.stance, phys.jump (GLB).  
 kin.urdf, kin.mjcf, kin.arm, kin.dof.arm=N, kin.mobile, kin.legged.biped, kin.legged.quadruped, kin.superhuman.joints, safety.workspace.limits (Rust).
 
-## LeRobot policy gate (in progress on mainline)
+## LeRobot policy gate (0.2.1)
 
 Rust `parse_policy` on `.tar`/`.tar.zst` → `policy.framework.lerobot` + obs/act + `safety.simonly`.  
-Hardware refuse: `bmf check-safety bundle.tar.zst --hardware` / `examples/lerobot-gate`.
+Hardware refuse: `bmf check-safety bundle.tar.zst --hardware`  
+HF fixture: https://huggingface.co/MCFL/bmf-lerobot-so100-act-fixture  
+npm: `@mcflamingo/bmf-cli@0.2.1`
 
 ## Install
 

@@ -1,0 +1,45 @@
+{
+  "bmf_policy_version": "0.2.0",
+  "framework": "lerobot",
+  "arch": {
+    "family": "diffusion",
+    "backbone": "custom",
+    "action_head": "diffusion"
+  },
+  "observation_space": {
+    "rgb": {
+      "shape": [480, 640, 3],
+      "cameras": ["primary", "wrist"]
+    },
+    "proprio": {
+      "shape": [6],
+      "includes": ["joint_positions", "gripper"]
+    }
+  },
+  "action_space": {
+    "joint": {
+      "shape": [6],
+      "limits": [[-3.14, 3.14], [-3.14, 3.14], [-3.14, 3.14], [-3.14, 3.14], [-3.14, 3.14], [-3.14, 3.14]]
+    },
+    "gripper": {
+      "shape": [1],
+      "range": [0, 1]
+    },
+    "chunk_size": 50,
+    "control_hz": 50
+  },
+  "embodiment": {
+    "targets": ["arm"],
+    "supported_robots": [
+      { "name": "SO-ARM100", "robot_hash": "sha256:so100-fixture" }
+    ],
+    "crossbody": false
+  },
+  "safety": {
+    "dead_man": true,
+    "sim_only": true,
+    "max_ee_velocity_m_s": 0.5,
+    "max_force_N": 25.0
+  },
+  "notes": "Structural LeRobot fixture for BMF — dummy weights, SO-100 pick/place shaped spaces. sim_only=true so hardware gate must refuse."
+}

@@ -1,12 +1,12 @@
 {
   "name": "@mcflamingo/bmf-example-three-js-loader",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Three.js loader that verifies a BMF manifest before instantiating the GLB and gates behaviors on capabilities.",
   "license": "Apache-2.0",
   "type": "module",
   "dependencies": {
-    "@mcflamingo/bmf-sdk": "^0.2.0",
+    "@mcflamingo/bmf-sdk": "^0.2.1",
     "three": "^0.170.0"
   }
 }

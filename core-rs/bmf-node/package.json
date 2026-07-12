@@ -1,6 +1,6 @@
 {
   "name": "@mcflamingo/bmf-node",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Rust core bindings for BMF — URDF/MJCF parse + kin.* capability derivation (napi-rs). Source of truth for robotics kinds; do not reimplement in TypeScript.",
   "license": "Apache-2.0",
   "author": "Erik Osol <erik@mcflamingo.com>",
