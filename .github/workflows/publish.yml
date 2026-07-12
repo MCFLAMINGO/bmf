@@ -64,14 +64,24 @@ jobs:
       - name: Test (Rust + JS)
         run: npm test
 
-      - name: Publish bmf-node (Rust)
-        run: npm publish --workspace core-rs/bmf-node --no-provenance --access public
-
-      - name: Publish sdk
-        run: npm publish --workspace sdk/typescript --no-provenance --access public
-
-      - name: Publish cli
-        run: npm publish --workspace cli --no-provenance --access public
-
-      - name: Publish gateway
-        run: npm publish --workspace gateway --no-provenance --access public
+      # Idempotent: re-running a tag (e.g. v0.2.1) must not fail with E403 when
+      # that version is already on the registry from the first successful publish.
+      - name: Publish packages (skip if version already on npm)
+        run: |
+          set -euo pipefail
+          publish_one() {
+            local workspace="$1"
+            local name version
+            name="$(node -p "require('./${workspace}/package.json').name")"
+            version="$(node -p "require('./${workspace}/package.json').version")"
+            if npm view "${name}@${version}" version >/dev/null 2>&1; then
+              echo "skip ${name}@${version} — already on npm"
+              return 0
+            fi
+            echo "publish ${name}@${version}"
+            npm publish --workspace "${workspace}" --no-provenance --access public
+          }
+          publish_one core-rs/bmf-node
+          publish_one sdk/typescript
+          publish_one cli
+          publish_one gateway

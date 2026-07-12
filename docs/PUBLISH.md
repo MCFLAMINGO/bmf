@@ -1,6 +1,21 @@
-# Publish BMF 0.2.0 to npm (Erik)
+# Publish BMF to npm (Erik)
 
-The GitHub release is already live. npm is blocked only because `secrets.NPM_TOKEN` is empty.
+## Current published versions
+
+```bash
+npm view @mcflamingo/bmf-node version
+npm view @mcflamingo/bmf-sdk version
+npm view @mcflamingo/bmf-cli version
+npm view @mcflamingo/bmf-gateway version
+```
+
+**0.2.1 is already on npm** (LeRobot policy gate). Do not re-run the `v0.2.1` tag expecting a new publish — npm forbids overwriting a version. Re-runs are now idempotent (skip already-published packages) but a red X on an old re-run before that fix is expected and harmless.
+
+---
+
+## First-time / unblock token setup (historical for 0.2.0)
+
+The GitHub release may already be live while npm is blocked because `secrets.NPM_TOKEN` is empty.
 You own the packages as **erikosol** (`@mcflamingo/bmf-sdk` etc.).
 
 ## 1. Create an npm granular token (~1 min)
@@ -49,8 +64,8 @@ gh run watch -R MCFLAMINGO/bmf
 ## 4. Verify
 
 ```bash
-npm view @mcflamingo/bmf-node version    # expect 0.2.0
-npm view @mcflamingo/bmf-sdk version     # expect 0.2.0
+npm view @mcflamingo/bmf-node version
+npm view @mcflamingo/bmf-sdk version
 npm view @mcflamingo/bmf-cli version
 npm view @mcflamingo/bmf-gateway version
 ```
@@ -58,9 +73,9 @@ npm view @mcflamingo/bmf-gateway version
 Install smoke:
 
 ```bash
-npm install @mcflamingo/bmf-sdk@0.2.0
+npm install -g @mcflamingo/bmf-cli@0.2.1
 ```
 
-## After 0.2.0 lands (optional hardening)
+## After a version lands (optional hardening)
 
-Configure **Trusted Publishing** on each package (npm → package → Settings → Trusted Publisher) for `MCFLAMINGO/bmf` + workflow `publish.yml`, then you can drop the long-lived token. First publish of a **new** package (`bmf-node`) still needs a token once — that’s this run.
+Configure **Trusted Publishing** on each package (npm → package → Settings → Trusted Publisher) for `MCFLAMINGO/bmf` + workflow `publish.yml`, then you can drop the long-lived token. First publish of a **new** package still needs a token once.
