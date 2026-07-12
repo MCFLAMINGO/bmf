@@ -1,6 +1,6 @@
 {
   "name": "bmf-monorepo",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "BMF — signed, content-addressed manifest format for embodied assets.",
   "license": "Apache-2.0",

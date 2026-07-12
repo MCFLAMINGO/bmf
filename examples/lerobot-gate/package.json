@@ -2,9 +2,9 @@
   "name": "@mcflamingo/bmf-example-lerobot-gate",
   "private": true,
   "type": "module",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "2-minute LeRobot fleet gate demo — verify policy, refuse on hardware if safety.simonly.",
   "dependencies": {
-    "@mcflamingo/bmf-sdk": "^0.2.0"
+    "@mcflamingo/bmf-sdk": "^0.2.1"
   }
 }
