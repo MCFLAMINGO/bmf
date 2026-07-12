@@ -115,19 +115,24 @@
     "kin.gripper.parallel":{ "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
     "kin.gripper.suction": { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
     "kin.gripper.dex":     { "verifiable": false, "kinds": ["urdf", "mjcf"], "planned": "0.2.0" },
-    "policy.framework.lerobot": { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.framework.lerobot": {
+      "verifiable": true,
+      "kinds": ["policy"],
+      "description": "LeRobot policy bundle: config.json fingerprints as lerobot (type=lerobot|act|diffusion|…) and/or manifest.framework=lerobot. Verified by bmf-core.",
+      "planned": "0.2.0"
+    },
     "policy.framework.openvla": { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
     "policy.framework.rt2":     { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
-    "policy.obs.rgb":           { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
-    "policy.obs.rgbd":          { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
-    "policy.obs.proprio":       { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
-    "policy.act.joint":         { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
-    "policy.act.ee_pose":       { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
-    "policy.act.gripper":       { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
+    "policy.obs.rgb":           { "verifiable": true,  "kinds": ["policy"], "description": "manifest.observation_space.rgb present." },
+    "policy.obs.rgbd":          { "verifiable": true,  "kinds": ["policy"], "description": "manifest.observation_space.rgbd present." },
+    "policy.obs.proprio":       { "verifiable": true,  "kinds": ["policy"], "description": "manifest.observation_space.proprio present." },
+    "policy.act.joint":         { "verifiable": true,  "kinds": ["policy"], "description": "manifest.action_space.joint present." },
+    "policy.act.ee_pose":       { "verifiable": true,  "kinds": ["policy"], "description": "manifest.action_space.ee_pose present." },
+    "policy.act.gripper":       { "verifiable": true,  "kinds": ["policy"], "description": "manifest.action_space.gripper present." },
     "skill.pick_place":         { "verifiable": false, "kinds": ["policy", "trajectory-bundle"], "planned": "0.2.0" },
     "skill.teleop_replay":      { "verifiable": false, "kinds": ["trajectory-bundle"], "planned": "0.2.0" },
     "safety.workspace.limits":  { "verifiable": true,  "kinds": ["urdf", "mjcf", "policy"], "description": "Every actuated joint has fully-specified limits (or is continuous).", "planned": "0.2.0" },
-    "safety.dead_man":          { "verifiable": false, "kinds": ["policy"], "planned": "0.2.0" },
-    "safety.simonly":           { "verifiable": false, "kinds": ["policy", "urdf", "mjcf"], "planned": "0.2.0", "enforcement": "runtime-must-refuse-on-hardware" }
+    "safety.dead_man":          { "verifiable": true,  "kinds": ["policy"], "description": "manifest.safety.dead_man === true." },
+    "safety.simonly":           { "verifiable": true,  "kinds": ["policy", "urdf", "mjcf"], "description": "manifest.safety.sim_only === true. Runtimes MUST refuse on physical hardware.", "enforcement": "runtime-must-refuse-on-hardware" }
   }
 }
